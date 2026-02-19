@@ -18,14 +18,14 @@ public class ProductMapper {
                 .mrp(product.getMrp())
                 .sellingPrice(product.getSellingPrice())
                 .brand(product.getBrand())
+                .categoryId(product.getCategory() != null ? product.getCategory().getId() : null) // correct - using category id
                 .category(CategoryMapper.toDto(product.getCategory()))
                 .storeId(product.getStore() != null ?product.getStore().getId():null)
                 .image(product.getImage())
                 .createdAt(product.getCreatedAt())
                 .updatedAt(product.getUpdatedAt())
                 .build();
-//
-//                .categoryId(product.getId())
+
     }
 
     public static Product toEntity(ProductDTO productDTO,
@@ -40,6 +40,7 @@ public class ProductMapper {
                 .description(productDTO.getDescription())
                 .mrp(productDTO.getMrp())
                 .sellingPrice(productDTO.getSellingPrice())
+                .image(productDTO.getImage()) // <-- added this
                 .brand(productDTO.getBrand())
                 .build();
     }
