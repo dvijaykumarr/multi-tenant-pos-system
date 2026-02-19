@@ -1,5 +1,6 @@
 package com.tap.mapper;
 
+import com.tap.modal.Category;
 import com.tap.modal.Product;
 import com.tap.modal.Store;
 import com.tap.payload.dto.ProductDTO;
@@ -17,6 +18,7 @@ public class ProductMapper {
                 .mrp(product.getMrp())
                 .sellingPrice(product.getSellingPrice())
                 .brand(product.getBrand())
+                .category(CategoryMapper.toDto(product.getCategory()))
                 .storeId(product.getStore() != null ?product.getStore().getId():null)
                 .image(product.getImage())
                 .createdAt(product.getCreatedAt())
@@ -26,10 +28,14 @@ public class ProductMapper {
 //                .categoryId(product.getId())
     }
 
-    public static Product toEntity(ProductDTO productDTO, Store store){
+    public static Product toEntity(ProductDTO productDTO,
+                                   Store store,
+                                   Category category){
 
         return Product.builder()
                 .name(productDTO.getName())
+                .store(store)
+                .category(category)
                 .sku(productDTO.getSku())
                 .description(productDTO.getDescription())
                 .mrp(productDTO.getMrp())
