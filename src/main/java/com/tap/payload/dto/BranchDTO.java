@@ -27,7 +27,6 @@ public class BranchDTO {
 
     private  String email;
 
-
     private List<String> workingDays;
 
     private LocalTime openTime;
