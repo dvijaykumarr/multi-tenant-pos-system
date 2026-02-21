@@ -12,9 +12,11 @@ public class InventoryMapper {
         return InventoryDTO.builder()
                 .id(inventory.getId())
                 .branchId(inventory.getBranch().getId())
+                .branch(BranchMapper.toDTO(inventory.getBranch())) // ← add this
                 .productId(inventory.getProduct().getId())
                 .product(ProductMapper.toDTO(inventory.getProduct()))
                 .quantity(inventory.getQuantity())
+                .lastUpdated(inventory.getLastUpdated())  // ← add this
                 .build();
     }
 
