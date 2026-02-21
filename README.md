@@ -1,26 +1,26 @@
-# 🧾 Multi-Tenant SaaS POS System (Spring Boot Backend)
+#  Multi-Tenant SaaS POS System (Spring Boot Backend)
 
 Enterprise-grade backend for a multi-branch Point of Sale (POS) platform that enables businesses to manage stores, products, users, and transactions from a centralized system.
 The application follows a scalable multi-tenant architecture with secure authentication and role-based access control.
 
 ---
 
-## 🚀 Features Implemented
+##  Features Implemented
 
-### 🔐 Authentication & Security
+###  Authentication & Security
 
 * JWT-based authentication
 * Spring Security integration
 * Role-based access control (Admin / Manager / Cashier)
 * Stateless session handling
 
-### 👤 User Management
+###  User Management
 
 * Create & manage users
 * Assign roles and permissions
 * Secure protected endpoints
 
-### 🏪 Store Management
+###  Store Management
 
 * Multi-branch store support
 * Store ownership validation
@@ -34,7 +34,7 @@ The application follows a scalable multi-tenant architecture with secure authent
 
 ---
 
-## 🧱 Tech Stack
+##  Tech Stack
 
 | Layer      | Technology           |
 | ---------- | -------------------- |
@@ -48,7 +48,7 @@ The application follows a scalable multi-tenant architecture with secure authent
 
 ---
 
-## 🏗️ Architecture
+##  Architecture
 
 The project follows layered architecture:
 
@@ -63,7 +63,7 @@ Additional patterns used:
 
 ---
 
-## 📡 API Modules (Current Progress)
+##  API Modules (Current Progress)
 
 Implemented:
 
@@ -82,7 +82,7 @@ Upcoming:
 
 ---
 
-## ⚙️ Running the Project Locally
+##  Running the Project Locally
 
 ### 1. Clone Repository
 
@@ -117,7 +117,7 @@ http://localhost:8080
 
 ---
 
-## 🧠 Learning Goals of This Project
+##  Learning Goals of This Project
 
 * Understand real-world backend architecture
 * Implement stateless authentication using JWT
@@ -126,7 +126,7 @@ http://localhost:8080
 
 ---
 
-## 📌 Project Status
+##  Project Status
 
 🚧 Actively under development
 
@@ -134,6 +134,4 @@ This project is continuously being expanded with advanced POS features such as b
 
 ---
 
-## 👨‍💻 Author
 
-Developed as a full-stack SaaS backend learning project.
