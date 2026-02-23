@@ -29,11 +29,17 @@ public class CustomerServiceImpl implements CustomerService {
                 ()->new Exception("Customer not found")
         );
 
-        customer.setFullName(customer.getFullName());
-        customer.setEmail(customer.getEmail());
-        customer.setPhone(customer.getPhone());
+//        customer.setFullName(customer.getFullName());
+//        customer.setEmail(customer.getEmail());
+//        customer.setPhone(customer.getPhone());
+//
+//        return customerRepository.save(customer);
 
-        return customerRepository.save(customer);
+        customerToUpdate.setFullName(customer.getFullName());   // ← customerToUpdate not customer
+        customerToUpdate.setEmail(customer.getEmail());          // ← customerToUpdate not customer
+        customerToUpdate.setPhone(customer.getPhone());          // ← customerToUpdate not customer
+
+        return customerRepository.save(customerToUpdate);
     }
 
     @Override
