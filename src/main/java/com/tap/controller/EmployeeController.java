@@ -5,7 +5,7 @@ import com.tap.domain.UserRole;
 import com.tap.modal.User;
 import com.tap.payload.dto.UserDto;
 import com.tap.payload.response.ApiResponse;
-import com.tap.repository.UserRepository;
+
 import com.tap.service.EmployeeService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
@@ -56,17 +56,17 @@ public class EmployeeController {
     }
 
     @GetMapping("/store/{id}")
-    public ResponseEntity<List<User>> storeEmployee(@PathVariable Long id,
+    public ResponseEntity<List<UserDto>> storeEmployee(@PathVariable Long id,
                                               @RequestParam(required = false)UserRole userRole) throws Exception {
-        List<User> employee = employeeService.findStoreEmployees(id, userRole);
+        List<UserDto> employee = employeeService.findStoreEmployees(id, userRole);
 
         return ResponseEntity.ok(employee);
     }
 
     @GetMapping("/branch/{id}")
-    public ResponseEntity<List<User>> branchEmployee(@PathVariable Long id,
+    public ResponseEntity<List<UserDto>> branchEmployee(@PathVariable Long id,
                                                     @RequestParam(required = false)UserRole userRole) throws Exception {
-        List<User> employee = employeeService.findBranchEmployees(id, userRole);
+        List<UserDto> employee = employeeService.findBranchEmployees(id, userRole);
 
         return ResponseEntity.ok(employee);
     }

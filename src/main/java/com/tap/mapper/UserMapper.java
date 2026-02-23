@@ -17,6 +17,8 @@ public class UserMapper {
         userDto.setUpdatedAt(savedUser.getUpdatedAt());
         userDto.setLastLogin(savedUser.getLastLogin());
         userDto.setPhone(savedUser.getPhone());
+        userDto.setStoreId(savedUser.getStore() != null ? savedUser.getStore().getId() : null);   // ← new
+        userDto.setBranchId(savedUser.getBranch() != null ? savedUser.getBranch().getId() : null); // ← new
 
         return userDto;
     }
