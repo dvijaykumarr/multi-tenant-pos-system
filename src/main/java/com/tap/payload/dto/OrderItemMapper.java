@@ -11,6 +11,7 @@ public class OrderItemMapper {
         return OrderItemDTO.builder()
                 .id(item.getId())
                 .productId(item.getProduct().getId())
+                .orderId(item.getOrder() != null ? item.getOrder().getId() : null)  // ← add this
                 .quantity(item.getQuantity())
                 .price(item.getPrice())
                 .product(ProductMapper.toDTO(item.getProduct()))

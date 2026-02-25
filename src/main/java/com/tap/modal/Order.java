@@ -14,6 +14,7 @@ import java.util.List;
 @AllArgsConstructor
 @NoArgsConstructor
 @Builder
+@Table(name = "orders")
 public class Order {
 
     @Id
@@ -33,7 +34,7 @@ public class Order {
     @ManyToOne
     private Customer customer;
 
-    @OneToMany
+    @OneToMany(mappedBy = "order", cascade = CascadeType.ALL)   //<- changed this
     private List<OrderItem> items;
 
     private PaymentType paymentType;

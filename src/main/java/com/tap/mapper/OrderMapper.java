@@ -13,6 +13,8 @@ public class OrderMapper {
         return OrderDto.builder()
                 .id(order.getId())
                 .totalAmount(order.getTotalAmount())
+                .branch(BranchMapper.toDTO(order.getBranch()))  // ← add this
+                .customerId(order.getCustomer() != null ? order.getCustomer().getId() : null)  // ← add this
                 .branchId(order.getBranch().getId())
                 .cashier(UserMapper.toDto(order.getCashier()))
                 .customer(order.getCustomer())

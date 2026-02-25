@@ -5,6 +5,7 @@ import com.tap.domain.PaymentType;
 import com.tap.mapper.OrderMapper;
 import com.tap.modal.*;
 import com.tap.payload.dto.OrderDto;
+import com.tap.repository.CustomerRepository;
 import com.tap.repository.OrderRepository;
 import com.tap.repository.ProductRepository;
 import com.tap.repository.UserRepository;
@@ -26,6 +27,7 @@ public class OrderServiceImpl implements OrderService {
 
     private final OrderRepository orderRepository;
 
+    private final CustomerRepository customerRepository;
     private final UserService userService;
     private final ProductRepository productRepository;
 
@@ -38,10 +40,17 @@ public class OrderServiceImpl implements OrderService {
             throw new Exception("Cashier's branch not found");
         }
 
+        Customer customer = null;
+        if(orderDto.getCustomerId() != null){
+            customer = customerRepository.findById(orderDto.getCustomerId())
+                    .orElseThrow(()-> new Exception("Customer not found"));
+        }
+
         Order order = Order.builder()
                 .branch(branch)
                 .cashier(cashier)
-                .customer(orderDto.getCustomer())
+//                .customer(orderDto.getCustomer())
+                .customer(customer)
                 .paymentType(orderDto.getPaymentType())
                 .build();
 
@@ -87,7 +96,7 @@ public class OrderServiceImpl implements OrderService {
                                             PaymentType paymentType,
                                             OrderStatus orderStatus) throws Exception {
 
-        return orderRepository.findByBranchId(branchId).stream()
+        return orderRepository.findByBranch_Id(branchId).stream()
                 .filter(order -> customerId == null ||
                         (order.getCustomer() != null &&
                             order.getCustomer().getId().equals(customerId)))
@@ -102,7 +111,7 @@ public class OrderServiceImpl implements OrderService {
     @Override
     public List<OrderDto> getOrderByCashier(Long cashierId) {
 
-        return orderRepository.findByCashierId(cashierId).stream()
+        return orderRepository.findByCashier_Id(cashierId).stream()
                 .map(OrderMapper::toDTO).collect(Collectors.toList());
     }
 
@@ -125,7 +134,7 @@ public class OrderServiceImpl implements OrderService {
         LocalDateTime end = today.plusDays(1).atStartOfDay();
 
 
-        return orderRepository.findByBranchIdAndCreatedAtBetween(
+        return orderRepository.findByBranch_IdAndCreatedAtBetween(
                 branchId, start, end
         ).stream().map(
                 OrderMapper::toDTO
@@ -134,7 +143,7 @@ public class OrderServiceImpl implements OrderService {
 
     @Override
     public List<OrderDto> getOrdersByCustomerId(Long customerId) throws Exception {
-        return orderRepository.findByCustomerId(customerId)
+        return orderRepository.findByCustomer_Id(customerId)
                 .stream().map(
                         OrderMapper::toDTO
                 ).collect(Collectors.toList());
@@ -142,7 +151,7 @@ public class OrderServiceImpl implements OrderService {
 
     @Override
     public List<OrderDto> getTop5RecentOrdersByBranchID(Long branchId) throws Exception {
-        return orderRepository.findTop5ByBranchIdOrderByCreatedAtDesc(branchId)
+        return orderRepository.findTop5ByBranch_IdOrderByCreatedAtDesc(branchId)
                 .stream().map(
                 OrderMapper::toDTO
         ).collect(Collectors.toList());

@@ -14,15 +14,15 @@ public interface OrderRepository extends JpaRepository<Order, Long> {
     // The conversion to UserDto should happen in the service layer or controller layer.
 
 
-    List<Order> findByCustomerId(Long customerId);
-    List<Order> findByBranchId(Long branchId);
-    List<Order> findByCashierId(Long cashierId);
-    List<Order> findByBranchIdAndCreatedAtBetween(Long branchId, LocalDateTime from, LocalDateTime to);
+    List<Order> findByCustomer_Id(Long customerId);
+    List<Order> findByBranch_Id(Long branchId);
+    List<Order> findByCashier_Id(Long cashierId);
+    List<Order> findByBranch_IdAndCreatedAtBetween(Long branchId, LocalDateTime from, LocalDateTime to);
 
     List<Order> findByCashierAndCreatedAtBetween(
             User cashier, LocalDateTime from, LocalDateTime to
     );
 
-    List<Order> findTop5ByBranchIdOrderByCreatedAtDesc(Long branchId);
+    List<Order> findTop5ByBranch_IdOrderByCreatedAtDesc(Long branchId);
 
 }
