@@ -5,10 +5,7 @@ import com.tap.exceptions.UserException;
 import com.tap.mapper.ShiftReportMapper;
 import com.tap.modal.*;
 import com.tap.payload.dto.ShiftReportDTO;
-import com.tap.repository.BranchRepository;
-import com.tap.repository.OrderRepository;
-import com.tap.repository.RefundRepository;
-import com.tap.repository.ShiftReportRepository;
+import com.tap.repository.*;
 import com.tap.service.ShiftReportService;
 import com.tap.service.UserService;
 import lombok.RequiredArgsConstructor;
@@ -28,6 +25,7 @@ public class ShiftReportServiceImpl implements ShiftReportService {
     private final BranchRepository branchRepository;
     private final RefundRepository refundRepository;
     private final OrderRepository orderRepository;
+    private final UserRepository userRepository;
 
 
     @Override
@@ -102,35 +100,112 @@ public class ShiftReportServiceImpl implements ShiftReportService {
 
 
     @Override
-    public ShiftReportDTO getShiftReportById(Long id) {
-        return null;
+    public ShiftReportDTO getShiftReportById(Long id) throws Exception {
+
+        return shiftReportRepository.findById(id)
+        .map(ShiftReportMapper::toDTO).orElseThrow(
+                ()-> new Exception("shift report not found with given id" + id)
+        );
     }
 
     @Override
     public List<ShiftReportDTO> getAllShiftReports() {
-        return List.of();
+
+
+        List<ShiftReport> reports = shiftReportRepository.findAll();
+        return reports.stream().map(
+                ShiftReportMapper::toDTO
+        ).collect(Collectors.toList());
     }
 
     @Override
     public List<ShiftReportDTO> getShiftReportByBranchId(Long branchId) {
-        return List.of();
+
+
+        List<ShiftReport> reports = shiftReportRepository.findByBranchId(branchId);
+        return reports.stream().map(
+                ShiftReportMapper::toDTO
+        ).collect(Collectors.toList());
     }
 
     @Override
     public List<ShiftReportDTO> getShiftReportByCashierId(Long cashierId) {
-        return List.of();
+
+
+        List<ShiftReport> reports = shiftReportRepository.findByCashierId(cashierId);
+        return reports.stream().map(
+                ShiftReportMapper::toDTO
+        ).collect(Collectors.toList());
     }
 
     @Override
-    public ShiftReportDTO getCurrentShiftProgress(Long cashierId) throws UserException {
-        return null;
+    public ShiftReportDTO getCurrentShiftProgress(Long cashierId) throws Exception {
+
+        User user = userService.getCurrentUser();
+        ShiftReport shiftReport = shiftReportRepository.findTopByCashierAndShiftEndIsNullOrderByShiftStartDesc(user)
+                .orElseThrow(
+                        ()-> new Exception("No active shift found for cashier")
+                );
+
+        LocalDateTime now = LocalDateTime.now();
+
+        List<Order> orders = orderRepository.findByCashierAndCreatedAtBetween(
+                user, shiftReport.getShiftStart(), now
+        );
+
+        List<Refund> refunds = refundRepository.findByCashierIdAndCreatedAtBetween(
+                user.getId(),
+                shiftReport.getShiftStart(), shiftReport.getShiftEnd()
+        );
+        double totalRefunds = refunds.stream()
+                .mapToDouble(refund->refund.getAmount() != null ?
+                        refund.getAmount():0.0).sum();
+
+
+
+        double totalSales = orders.stream()
+                .mapToDouble(Order::getTotalAmount).sum();
+
+        int totalOrders = orders.size();
+
+        double netSales = totalSales - totalRefunds;
+        shiftReport.setTotalRefunds(totalRefunds);
+        shiftReport.setTotalSales(totalSales);
+        shiftReport.setTotalOrders(totalOrders);
+        shiftReport.setNetSale(netSales);
+        shiftReport.setRecentOrders(getRecentOrders(orders));
+        shiftReport.setTopSellingProducts(getTopSellingProducts(orders));
+        shiftReport.setPaymentSummaries(getPaymentSummaries(orders, totalSales));
+        shiftReport.setRefunds(refunds);
+
+
+
+        ShiftReport savedReport = shiftReportRepository.save(shiftReport);
+
+        return ShiftReportMapper.toDTO(savedReport);
     }
 
     @Override
     public ShiftReportDTO getShiftReportByCashierAndDate(Long cashierId, LocalDateTime date) throws Exception {
-        return null;
+
+        User cashier = userRepository.findById(cashierId).orElseThrow(
+                () -> new Exception("cashier not found with given id" + cashierId)
+        );
+
+        LocalDateTime start = date.withHour(0).withMinute(0).withSecond(0);
+        LocalDateTime end = date.withHour(23).withMinute(59).withSecond(59);
+
+        ShiftReport report = shiftReportRepository.findByCashierAndShiftStartBetween(
+                cashier, start, end
+        ).orElseThrow(
+                () -> new Exception("shift report not found for cashier ")
+        );
+
+        return ShiftReportMapper.toDTO(report);
     }
 
+
+//    ------------------- Helper methods --------------------------------------
 
     private List<PaymentSummary> getPaymentSummaries(List<Order> orders, double totalSales) {
 
