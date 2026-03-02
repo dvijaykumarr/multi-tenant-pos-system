@@ -19,6 +19,8 @@ public class ShiftReportMapper {
                 .shiftStart(entity.getShiftStart())
                 .shiftEnd(entity.getShiftEnd())
                 .totalSales(entity.getTotalSales())
+                .totalRefunds(entity.getTotalRefunds())                          // ← add this
+                .branch(BranchMapper.toDTO(entity.getBranch()))                  // ← add this
                 .totalOrders(entity.getTotalOrders())
                 .netSale(entity.getNetSale())
                 .totalOrders(entity.getTotalOrders())

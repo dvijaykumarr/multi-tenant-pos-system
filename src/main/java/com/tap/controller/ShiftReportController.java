@@ -53,7 +53,7 @@ public class ShiftReportController {
         );
     }
 
-    @GetMapping("/cashier/{cashierId}/by-date")
+    @GetMapping("/cashier/{cashierId}")
     public ResponseEntity<List<ShiftReportDTO>> getShiftReportByCashier(
             @PathVariable Long cashierId
     ) throws Exception {
@@ -62,6 +62,31 @@ public class ShiftReportController {
                 shiftReportService.getShiftReportByCashierId(cashierId)
         );
     }
+
+
+    @GetMapping("/branch/{branchId}")
+    public ResponseEntity<List<ShiftReportDTO>> getShiftReportByBranch(
+            @PathVariable Long branchId
+    ) throws Exception {
+        return ResponseEntity.ok(
+
+                shiftReportService.getShiftReportByBranchId(branchId)
+        );
+    }
+
+
+
+    @GetMapping("/{id}")
+    public ResponseEntity<ShiftReportDTO> getShiftReportById(
+            @PathVariable Long id
+    ) throws Exception {
+        return ResponseEntity.ok(
+
+                shiftReportService.getShiftReportById(id)
+        );
+    }
+
+
 
 
 
