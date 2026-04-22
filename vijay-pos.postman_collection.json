@@ -1,0 +1,1885 @@
+{
+  "info": {
+    "_postman_id": "7bafebdf-c915-4eba-81a3-0a1666280e1c",
+    "name": "vijay-pos",
+    "schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+    "_exporter_id": "50899890",
+    "_collection_link": "https://go.postman.co/collection/50899890-7bafebdf-c915-4eba-81a3-0a1666280e1c?source=collection_link"
+  },
+  "item": [
+    {
+      "name": "user api",
+      "item": [
+        {
+          "name": "signup",
+          "request": {
+            "auth": {
+              "type": "noauth"
+            },
+            "method": "POST",
+            "header": [],
+            "body": {
+              "mode": "raw",
+              "raw": "{\r\n  \"username\": \"storeadmin5\",\r\n  \"password\": \"123456899999\",\r\n  \"email\": \"storeadmin5@gmail.com\",\r\n  \"fullName\": \"Store Admin Five\",\r\n  \"phone\": \"9999777777\",\r\n  \"role\": \"ROLE_STORE_ADMIN\"\r\n}\r\n",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            },
+            "url": {
+              "raw": "http://localhost:5000/auth/signup",
+              "protocol": "http",
+              "host": [
+                "localhost"
+              ],
+              "port": "5000",
+              "path": [
+                "auth",
+                "signup"
+              ]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "login",
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "exec": [
+                  "let response = pm.response.json();\r",
+                  "pm.environment.set(\"store_admin_jwt\", response.jwt);\r",
+                  ""
+                ],
+                "type": "text/javascript",
+                "packages": {},
+                "requests": {}
+              }
+            }
+          ],
+          "request": {
+            "auth": {
+              "type": "noauth"
+            },
+            "method": "POST",
+            "header": [],
+            "body": {
+              "mode": "raw",
+              "raw": "\r\n{\r\n    \"email\": \"jane.doe@gmail.com\",\r\n    \"password\": \"123456\"\r\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            },
+            "url": {
+              "raw": "http://localhost:5000/auth/login",
+              "protocol": "http",
+              "host": [
+                "localhost"
+              ],
+              "port": "5000",
+              "path": [
+                "auth",
+                "login"
+              ]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "user profile",
+          "protocolProfileBehavior": {
+            "disableBodyPruning": true
+          },
+          "request": {
+            "auth": {
+              "type": "bearer",
+              "bearer": [
+                {
+                  "key": "token",
+                  "value": "yJhbGciOiJIUzM4NCJ9.eyJpYXQiOjE3NzE1MjYzMDMsImV4cCI6MTc3MTYxMjcwMywiZW1haWwiOiJzdG9yZWFkbWluNUBnbWFpbC5jb20iLCJhdXRob3JpdGllcyI6IlJPTEVfU1RPUkVfQURNSU4ifQ.wcdMmoXNkdkew3lmqgo3QnHll_YS7oPIzuPCWbR7oHFsnrlT3ET043J7N-MpSfDs",
+                  "type": "string"
+                }
+              ]
+            },
+            "method": "GET",
+            "header": [],
+            "body": {
+              "mode": "raw",
+              "raw": "",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            },
+            "url": {
+              "raw": "http://localhost:5000/api/users/profile",
+              "protocol": "http",
+              "host": [
+                "localhost"
+              ],
+              "port": "5000",
+              "path": [
+                "api",
+                "users",
+                "profile"
+              ]
+            }
+          },
+          "response": []
+        }
+      ]
+    },
+    {
+      "name": "store api",
+      "item": [
+        {
+          "name": "create store",
+          "request": {
+            "auth": {
+              "type": "bearer",
+              "bearer": [
+                {
+                  "key": "token",
+                  "value": "eyJhbGciOiJIUzM4NCJ9.eyJpYXQiOjE3NzEzOTI2NzEsImV4cCI6MTc3MTQ3OTA3MSwiZW1haWwiOiJzdG9yZWFkbWluNUBnbWFpbC5jb20iLCJhdXRob3JpdGllcyI6IlJPTEVfU1RPUkVfQURNSU4ifQ.ROFaSa_rdsb29trex4t81OWxI__N-g3jTZuepoVAazqE1DQ19uUv0LIDInAS3H3p",
+                  "type": "string"
+                }
+              ]
+            },
+            "method": "POST",
+            "header": [],
+            "body": {
+              "mode": "raw",
+              "raw": "{\r\n    \r\n    \"brand\" : \"Star Bucks\",\r\n    \"storeType\" : \"Coffe store\",\r\n    \"storeContact\" :{\r\n        \"address\" : \"MG road\",\r\n        \"email\" : \"starbucks@gmail.com\",\r\n        \"phone\" : \"11111111111\"\r\n    },\r\n    \"description\" : \"coffe shop\"\r\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            },
+            "url": {
+              "raw": "http://localhost:5000/api/stores",
+              "protocol": "http",
+              "host": [
+                "localhost"
+              ],
+              "port": "5000",
+              "path": [
+                "api",
+                "stores"
+              ]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "update store",
+          "request": {
+            "auth": {
+              "type": "bearer",
+              "bearer": [
+                {
+                  "key": "token",
+                  "value": "eyJhbGciOiJIUzM4NCJ9.eyJpYXQiOjE3NzA3MzUyNjcsImV4cCI6MTc3MDgyMTY2NywiZW1haWwiOiJyYWFtQGdtYWlsLmNvbSIsImF1dGhvcml0aWVzIjoiIn0.VxhBjqpijSqPMwRploARn25HGroSoiL7c0f3YiRazM8Gc4Umn24-HgvaPxeb3EGF",
+                  "type": "string"
+                }
+              ]
+            },
+            "method": "PUT",
+            "header": [],
+            "body": {
+              "mode": "raw",
+              "raw": "{\r\n    \"brand\": \"Tap d mart Shopping\",\r\n    \"contact\": null,\r\n    \r\n    \"description\": \"a to z shopping\",\r\n    \r\n    \"storeType\": \"ecommerce store\"\r\n    \r\n\r\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            },
+            "url": {
+              "raw": "http://localhost:5000/api/stores/1",
+              "protocol": "http",
+              "host": [
+                "localhost"
+              ],
+              "port": "5000",
+              "path": [
+                "api",
+                "stores",
+                "1"
+              ]
+            }
+          },
+          "response": []
+        }
+      ]
+    },
+    {
+      "name": "Category api",
+      "item": [
+        {
+          "name": "create category",
+          "request": {
+            "auth": {
+              "type": "bearer",
+              "bearer": [
+                {
+                  "key": "token",
+                  "value": "eyJhbGciOiJIUzM4NCJ9.eyJpYXQiOjE3NzE1MjA0MjgsImV4cCI6MTc3MTYwNjgyOCwiZW1haWwiOiJzdG9yZWFkbWluNUBnbWFpbC5jb20iLCJhdXRob3JpdGllcyI6IlJPTEVfU1RPUkVfQURNSU4ifQ.cvRV9rHy-dIEOVfds6SqDVqhWYVxme3kJTg4u_skD5TINkQBwv9vKG8C5P-7-J8w",
+                  "type": "string"
+                }
+              ]
+            },
+            "method": "POST",
+            "header": [
+              {
+                "key": "Authorization",
+                "value": "eyJhbGciOiJIUzM4NCJ9.eyJpYXQiOjE3NzEzMzYyMTYsImV4cCI6MTc3MTQyMjYxNiwiZW1haWwiOiJzdG9yZWFkbWluM0BnbWFpbC5jb20iLCJhdXRob3JpdGllcyI6IlJPTEVfU1RPUkVfQURNSU4ifQ.ukykwV6v2Kl0gPGN8MwGLEz_YGvhF6LVhkgW-nEwxT_hZLuAt-xYNV_2fmrDUVyp",
+                "type": "text",
+                "disabled": true
+              },
+              {
+                "key": "",
+                "value": "eyJhbGciOiJIUzM4NCJ9.eyJpYXQiOjE3NzEzMzYyMTYsImV4cCI6MTc3MTQyMjYxNiwiZW1haWwiOiJzdG9yZWFkbWluM0BnbWFpbC5jb20iLCJhdXRob3JpdGllcyI6IlJPTEVfU1RPUkVfQURNSU4ifQ.ukykwV6v2Kl0gPGN8MwGLEz_YGvhF6LVhkgW-nEwxT_hZLuAt-xYNV_2fmrDUVyp",
+                "type": "text",
+                "disabled": true
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "\r\n\r\n{\r\n    \"name\": \"Coffe\",\r\n    \"storeId\": 52\r\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            },
+            "url": {
+              "raw": "http://localhost:5000/api/categories/1",
+              "protocol": "http",
+              "host": [
+                "localhost"
+              ],
+              "port": "5000",
+              "path": [
+                "api",
+                "categories",
+                "1"
+              ]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "get categories by store id",
+          "protocolProfileBehavior": {
+            "disableBodyPruning": true
+          },
+          "request": {
+            "auth": {
+              "type": "bearer",
+              "bearer": [
+                {
+                  "key": "token",
+                  "value": "eyJhbGciOiJIUzM4NCJ9.eyJpYXQiOjE3NzE1MjA0MjgsImV4cCI6MTc3MTYwNjgyOCwiZW1haWwiOiJzdG9yZWFkbWluNUBnbWFpbC5jb20iLCJhdXRob3JpdGllcyI6IlJPTEVfU1RPUkVfQURNSU4ifQ.cvRV9rHy-dIEOVfds6SqDVqhWYVxme3kJTg4u_skD5TINkQBwv9vKG8C5P-7-J8w",
+                  "type": "string"
+                }
+              ]
+            },
+            "method": "GET",
+            "header": [
+              {
+                "key": "Authorization",
+                "value": "eyJhbGciOiJIUzM4NCJ9.eyJpYXQiOjE3NzEzMzYyMTYsImV4cCI6MTc3MTQyMjYxNiwiZW1haWwiOiJzdG9yZWFkbWluM0BnbWFpbC5jb20iLCJhdXRob3JpdGllcyI6IlJPTEVfU1RPUkVfQURNSU4ifQ.ukykwV6v2Kl0gPGN8MwGLEz_YGvhF6LVhkgW-nEwxT_hZLuAt-xYNV_2fmrDUVyp",
+                "type": "text",
+                "disabled": true
+              },
+              {
+                "key": "",
+                "value": "eyJhbGciOiJIUzM4NCJ9.eyJpYXQiOjE3NzEzMzYyMTYsImV4cCI6MTc3MTQyMjYxNiwiZW1haWwiOiJzdG9yZWFkbWluM0BnbWFpbC5jb20iLCJhdXRob3JpdGllcyI6IlJPTEVfU1RPUkVfQURNSU4ifQ.ukykwV6v2Kl0gPGN8MwGLEz_YGvhF6LVhkgW-nEwxT_hZLuAt-xYNV_2fmrDUVyp",
+                "type": "text",
+                "disabled": true
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": ""
+            },
+            "url": {
+              "raw": "http://localhost:5000/api/categories/store/52",
+              "protocol": "http",
+              "host": [
+                "localhost"
+              ],
+              "port": "5000",
+              "path": [
+                "api",
+                "categories",
+                "store",
+                "52"
+              ]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "update category",
+          "request": {
+            "method": "PUT",
+            "header": [],
+            "body": {
+              "mode": "raw",
+              "raw": "\r\n{\r\n    \"name\": \"mobiles\"\r\n    \r\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            },
+            "url": {
+              "raw": "http://localhost:5000/api/categories/1",
+              "protocol": "http",
+              "host": [
+                "localhost"
+              ],
+              "port": "5000",
+              "path": [
+                "api",
+                "categories",
+                "1"
+              ]
+            }
+          },
+          "response": []
+        }
+      ]
+    },
+    {
+      "name": "product api",
+      "item": [
+        {
+          "name": "create product",
+          "request": {
+            "auth": {
+              "type": "bearer",
+              "bearer": [
+                {
+                  "key": "token",
+                  "value": "eyJhbGciOiJIUzM4NCJ9.eyJpYXQiOjE3NzE1MjA0MjgsImV4cCI6MTc3MTYwNjgyOCwiZW1haWwiOiJzdG9yZWFkbWluNUBnbWFpbC5jb20iLCJhdXRob3JpdGllcyI6IlJPTEVfU1RPUkVfQURNSU4ifQ.cvRV9rHy-dIEOVfds6SqDVqhWYVxme3kJTg4u_skD5TINkQBwv9vKG8C5P-7-J8w",
+                  "type": "string"
+                }
+              ]
+            },
+            "method": "POST",
+            "header": [
+              {
+                "key": "Authorization",
+                "value": "eyJhbGciOiJIUzM4NCJ9.eyJpYXQiOjE3NzEzMzYyMTYsImV4cCI6MTc3MTQyMjYxNiwiZW1haWwiOiJzdG9yZWFkbWluM0BnbWFpbC5jb20iLCJhdXRob3JpdGllcyI6IlJPTEVfU1RPUkVfQURNSU4ifQ.ukykwV6v2Kl0gPGN8MwGLEz_YGvhF6LVhkgW-nEwxT_hZLuAt-xYNV_2fmrDUVyp",
+                "type": "text",
+                "disabled": true
+              },
+              {
+                "key": "",
+                "value": "eyJhbGciOiJIUzM4NCJ9.eyJpYXQiOjE3NzEzMzYyMTYsImV4cCI6MTc3MTQyMjYxNiwiZW1haWwiOiJzdG9yZWFkbWluM0BnbWFpbC5jb20iLCJhdXRob3JpdGllcyI6IlJPTEVfU1RPUkVfQURNSU4ifQ.ukykwV6v2Kl0gPGN8MwGLEz_YGvhF6LVhkgW-nEwxT_hZLuAt-xYNV_2fmrDUVyp",
+                "type": "text",
+                "disabled": true
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\r\n    \"name\": \"Samsung Galaxy S24\",\r\n    \"sku\": \"SAM-S24-001\",\r\n    \"description\": \"Samsung Galaxy S24 256GB\",\r\n    \"mrp\": 74999.00,\r\n    \"sellingPrice\": 69999.00,\r\n    \"brand\": \"Samsung\",\r\n    \"image\": \"https://example.com/galaxy-s24.jpg\",\r\n    \"categoryId\": 1,\r\n    \"storeId\": 52\r\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            },
+            "url": {
+              "raw": "http://localhost:5000/api/products",
+              "protocol": "http",
+              "host": [
+                "localhost"
+              ],
+              "port": "5000",
+              "path": [
+                "api",
+                "products"
+              ]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "update product",
+          "request": {
+            "auth": {
+              "type": "bearer",
+              "bearer": [
+                {
+                  "key": "token",
+                  "value": "eyJhbGciOiJIUzM4NCJ9.eyJpYXQiOjE3NzE1MjA0MjgsImV4cCI6MTc3MTYwNjgyOCwiZW1haWwiOiJzdG9yZWFkbWluNUBnbWFpbC5jb20iLCJhdXRob3JpdGllcyI6IlJPTEVfU1RPUkVfQURNSU4ifQ.cvRV9rHy-dIEOVfds6SqDVqhWYVxme3kJTg4u_skD5TINkQBwv9vKG8C5P-7-J8w",
+                  "type": "string"
+                }
+              ]
+            },
+            "method": "PATCH",
+            "header": [
+              {
+                "key": "Authorization",
+                "value": "eyJhbGciOiJIUzM4NCJ9.eyJpYXQiOjE3NzEzMzYyMTYsImV4cCI6MTc3MTQyMjYxNiwiZW1haWwiOiJzdG9yZWFkbWluM0BnbWFpbC5jb20iLCJhdXRob3JpdGllcyI6IlJPTEVfU1RPUkVfQURNSU4ifQ.ukykwV6v2Kl0gPGN8MwGLEz_YGvhF6LVhkgW-nEwxT_hZLuAt-xYNV_2fmrDUVyp",
+                "type": "text",
+                "disabled": true
+              },
+              {
+                "key": "",
+                "value": "eyJhbGciOiJIUzM4NCJ9.eyJpYXQiOjE3NzEzMzYyMTYsImV4cCI6MTc3MTQyMjYxNiwiZW1haWwiOiJzdG9yZWFkbWluM0BnbWFpbC5jb20iLCJhdXRob3JpdGllcyI6IlJPTEVfU1RPUkVfQURNSU4ifQ.ukykwV6v2Kl0gPGN8MwGLEz_YGvhF6LVhkgW-nEwxT_hZLuAt-xYNV_2fmrDUVyp",
+                "type": "text",
+                "disabled": true
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\r\n    \"name\": \"iPhone 15\",\r\n    \"sku\": \"IPH15-001\",\r\n    \"description\": \"Apple iPhone 15 128GB\",\r\n    \"mrp\": 90000.00,\r\n    \"sellingPrice\": 74999.00,\r\n    \"brand\": \"Apple\",\r\n    \"image\": \"https://example.com/iphone15.jpg\",\r\n    \"categoryId\": 1,\r\n    \"storeId\": 52\r\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            },
+            "url": {
+              "raw": "http://localhost:5000/api/products/1",
+              "protocol": "http",
+              "host": [
+                "localhost"
+              ],
+              "port": "5000",
+              "path": [
+                "api",
+                "products",
+                "1"
+              ]
+            }
+          },
+          "response": []
+        }
+      ]
+    },
+    {
+      "name": "Branch api",
+      "item": [
+        {
+          "name": "create branch",
+          "request": {
+            "auth": {
+              "type": "bearer",
+              "bearer": [
+                {
+                  "key": "token",
+                  "value": "eyJhbGciOiJIUzM4NCJ9.eyJpYXQiOjE3NzE1MjY2MjksImV4cCI6MTc3MTYxMzAyOSwiZW1haWwiOiJzdG9yZWFkbWluNUBnbWFpbC5jb20iLCJhdXRob3JpdGllcyI6IlJPTEVfU1RPUkVfQURNSU4ifQ.OQgZyLuMkyj9JnIKOqH3GEb9TAIreDaRRu7XrmtIXkYzSlz3oIvc5yYf5G_9m_o7",
+                  "type": "string"
+                }
+              ]
+            },
+            "method": "POST",
+            "header": [],
+            "body": {
+              "mode": "raw",
+              "raw": "{\r\n    \"name\" : \"Vijay Shopping Mall, Nandyal\",\r\n    \"address\" : \"Padmavati Nagar\",\r\n    \"workingDays\" : [\"Mon\", \"Tue\", \"Wed\", \"Thu\", \"Fri\"]\r\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            },
+            "url": {
+              "raw": "http://localhost:5000/api/branches",
+              "protocol": "http",
+              "host": [
+                "localhost"
+              ],
+              "port": "5000",
+              "path": [
+                "api",
+                "branches"
+              ]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "get all branch by store id",
+          "protocolProfileBehavior": {
+            "disableBodyPruning": true
+          },
+          "request": {
+            "auth": {
+              "type": "bearer",
+              "bearer": [
+                {
+                  "key": "token",
+                  "value": "eyJhbGciOiJIUzM4NCJ9.eyJpYXQiOjE3NzE1MjY2MjksImV4cCI6MTc3MTYxMzAyOSwiZW1haWwiOiJzdG9yZWFkbWluNUBnbWFpbC5jb20iLCJhdXRob3JpdGllcyI6IlJPTEVfU1RPUkVfQURNSU4ifQ.OQgZyLuMkyj9JnIKOqH3GEb9TAIreDaRRu7XrmtIXkYzSlz3oIvc5yYf5G_9m_o7",
+                  "type": "string"
+                }
+              ]
+            },
+            "method": "GET",
+            "header": [],
+            "body": {
+              "mode": "raw",
+              "raw": "{\r\n    \"name\" : \"Vijay Shopping Mall, Nandyal\",\r\n    \"address\" : \"Padmavati Nagar\",\r\n    \"workingDays\" : [\"Mon\", \"Tue\", \"Wed\", \"Thu\", \"Fri\"]\r\n}"
+            },
+            "url": {
+              "raw": "http://localhost:5000/api/branches/store/52",
+              "protocol": "http",
+              "host": [
+                "localhost"
+              ],
+              "port": "5000",
+              "path": [
+                "api",
+                "branches",
+                "store",
+                "52"
+              ]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "update branch",
+          "request": {
+            "auth": {
+              "type": "bearer",
+              "bearer": [
+                {
+                  "key": "token",
+                  "value": "eyJhbGciOiJIUzM4NCJ9.eyJpYXQiOjE3NzE1MjY2MjksImV4cCI6MTc3MTYxMzAyOSwiZW1haWwiOiJzdG9yZWFkbWluNUBnbWFpbC5jb20iLCJhdXRob3JpdGllcyI6IlJPTEVfU1RPUkVfQURNSU4ifQ.OQgZyLuMkyj9JnIKOqH3GEb9TAIreDaRRu7XrmtIXkYzSlz3oIvc5yYf5G_9m_o7",
+                  "type": "string"
+                }
+              ]
+            },
+            "method": "PUT",
+            "header": [],
+            "body": {
+              "mode": "raw",
+              "raw": "{\r\n    \"id\": 1,\r\n    \"name\": \"Vijay Shopping Mall, Nandyal\",\r\n    \"address\": \"Padmavati Nagar\",\r\n    \"phone\": null,\r\n    \"email\": null,\r\n    \"workingDays\": [\"Mon\", \"Tue\", \"Wed\", \"Thu\", \"Fri\"],\r\n    \"openTime\": \"09:30:00\",\r\n    \"closeTime\": \"18:00:00\"\r\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            },
+            "url": {
+              "raw": "http://localhost:5000/api/branches/1",
+              "protocol": "http",
+              "host": [
+                "localhost"
+              ],
+              "port": "5000",
+              "path": [
+                "api",
+                "branches",
+                "1"
+              ]
+            }
+          },
+          "response": []
+        }
+      ]
+    },
+    {
+      "name": "Inventory api",
+      "item": [
+        {
+          "name": "create inventory",
+          "request": {
+            "auth": {
+              "type": "bearer",
+              "bearer": [
+                {
+                  "key": "token",
+                  "value": "eyJhbGciOiJIUzM4NCJ9.eyJpYXQiOjE3NzE2NTY3NDksImV4cCI6MTc3MTc0MzE0OSwiZW1haWwiOiJzdG9yZWFkbWluNUBnbWFpbC5jb20iLCJhdXRob3JpdGllcyI6IlJPTEVfU1RPUkVfQURNSU4ifQ.lhdpcfEIaNH6ZIpOnAJsdFeGlkt9-kFUTgOGUWhIGoRLuuzrY-dkBofkIZ3y7bNu",
+                  "type": "string"
+                }
+              ]
+            },
+            "method": "POST",
+            "header": [],
+            "body": {
+              "mode": "raw",
+              "raw": "{\r\n    \"branchId\": 1,\r\n    \"productId\": 1,\r\n    \"quantity\": 50\r\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            },
+            "url": {
+              "raw": "http://localhost:5000/api/inventories",
+              "protocol": "http",
+              "host": [
+                "localhost"
+              ],
+              "port": "5000",
+              "path": [
+                "api",
+                "inventories"
+              ]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "update inventory",
+          "request": {
+            "auth": {
+              "type": "bearer",
+              "bearer": [
+                {
+                  "key": "token",
+                  "value": "eyJhbGciOiJIUzM4NCJ9.eyJpYXQiOjE3NzE2NTY3NDksImV4cCI6MTc3MTc0MzE0OSwiZW1haWwiOiJzdG9yZWFkbWluNUBnbWFpbC5jb20iLCJhdXRob3JpdGllcyI6IlJPTEVfU1RPUkVfQURNSU4ifQ.lhdpcfEIaNH6ZIpOnAJsdFeGlkt9-kFUTgOGUWhIGoRLuuzrY-dkBofkIZ3y7bNu",
+                  "type": "string"
+                }
+              ]
+            },
+            "method": "PUT",
+            "header": [],
+            "body": {
+              "mode": "raw",
+              "raw": "{\r\n    \"branchId\": 1,\r\n    \"productId\": 1,\r\n    \"quantity\": 30\r\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            },
+            "url": {
+              "raw": "http://localhost:5000/api/inventories/1",
+              "protocol": "http",
+              "host": [
+                "localhost"
+              ],
+              "port": "5000",
+              "path": [
+                "api",
+                "inventories",
+                "1"
+              ]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "get InventoryBy Product and BranchId",
+          "request": {
+            "auth": {
+              "type": "bearer",
+              "bearer": [
+                {
+                  "key": "token",
+                  "value": "eyJhbGciOiJIUzM4NCJ9.eyJpYXQiOjE3NzE2NTY3NDksImV4cCI6MTc3MTc0MzE0OSwiZW1haWwiOiJzdG9yZWFkbWluNUBnbWFpbC5jb20iLCJhdXRob3JpdGllcyI6IlJPTEVfU1RPUkVfQURNSU4ifQ.lhdpcfEIaNH6ZIpOnAJsdFeGlkt9-kFUTgOGUWhIGoRLuuzrY-dkBofkIZ3y7bNu",
+                  "type": "string"
+                }
+              ]
+            },
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "http://localhost:5000/api/inventories/branch/1/product/1",
+              "protocol": "http",
+              "host": [
+                "localhost"
+              ],
+              "port": "5000",
+              "path": [
+                "api",
+                "inventories",
+                "branch",
+                "1",
+                "product",
+                "1"
+              ]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "get inventory by branchId",
+          "request": {
+            "auth": {
+              "type": "bearer",
+              "bearer": [
+                {
+                  "key": "token",
+                  "value": "eyJhbGciOiJIUzM4NCJ9.eyJpYXQiOjE3NzE2NTY3NDksImV4cCI6MTc3MTc0MzE0OSwiZW1haWwiOiJzdG9yZWFkbWluNUBnbWFpbC5jb20iLCJhdXRob3JpdGllcyI6IlJPTEVfU1RPUkVfQURNSU4ifQ.lhdpcfEIaNH6ZIpOnAJsdFeGlkt9-kFUTgOGUWhIGoRLuuzrY-dkBofkIZ3y7bNu",
+                  "type": "string"
+                }
+              ]
+            },
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "http://localhost:5000/api/inventories/branch/1",
+              "protocol": "http",
+              "host": [
+                "localhost"
+              ],
+              "port": "5000",
+              "path": [
+                "api",
+                "inventories",
+                "branch",
+                "1"
+              ]
+            }
+          },
+          "response": []
+        }
+      ]
+    },
+    {
+      "name": "employee api",
+      "item": [
+        {
+          "name": "create store employee",
+          "request": {
+            "auth": {
+              "type": "bearer",
+              "bearer": [
+                {
+                  "key": "token",
+                  "value": "eyJhbGciOiJIUzM4NCJ9.eyJpYXQiOjE3NzE4MzQxODMsImV4cCI6MTc3MTkyMDU4MywiZW1haWwiOiJzdG9yZWFkbWluNUBnbWFpbC5jb20iLCJhdXRob3JpdGllcyI6IlJPTEVfU1RPUkVfQURNSU4ifQ.7UsbHK_v_9rUQ919OPMu8WzmNH2h6EFvZL5AwjlNgPH48TPTDR69ohSmNXNXUlrA",
+                  "type": "string"
+                }
+              ]
+            },
+            "method": "POST",
+            "header": [],
+            "body": {
+              "mode": "raw",
+              "raw": "{\r\n    \"fullName\": \"John Doe\",\r\n    \"email\": \"john.doe@gmail.com\",\r\n    \"password\": \"123456\",\r\n    \"phone\": \"9876543210\",\r\n    \"role\": \"ROLE_STORE_MANAGER\"\r\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            },
+            "url": {
+              "raw": "http://localhost:5000/api/employees/store/52",
+              "protocol": "http",
+              "host": [
+                "localhost"
+              ],
+              "port": "5000",
+              "path": [
+                "api",
+                "employees",
+                "store",
+                "52"
+              ]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "create branch employee",
+          "request": {
+            "auth": {
+              "type": "bearer",
+              "bearer": [
+                {
+                  "key": "token",
+                  "value": "eyJhbGciOiJIUzM4NCJ9.eyJpYXQiOjE3NzE4MzQxODMsImV4cCI6MTc3MTkyMDU4MywiZW1haWwiOiJzdG9yZWFkbWluNUBnbWFpbC5jb20iLCJhdXRob3JpdGllcyI6IlJPTEVfU1RPUkVfQURNSU4ifQ.7UsbHK_v_9rUQ919OPMu8WzmNH2h6EFvZL5AwjlNgPH48TPTDR69ohSmNXNXUlrA",
+                  "type": "string"
+                }
+              ]
+            },
+            "method": "POST",
+            "header": [],
+            "body": {
+              "mode": "raw",
+              "raw": "{\r\n    \"fullName\": \"Jane Doe\",\r\n    \"email\": \"jane.doe@gmail.com\",\r\n    \"password\": \"123456\",\r\n    \"phone\": \"9876543211\",\r\n    \"role\": \"ROLE_BRANCH_CASHIER\"\r\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            },
+            "url": {
+              "raw": "http://localhost:5000/api/employees/branch/",
+              "protocol": "http",
+              "host": [
+                "localhost"
+              ],
+              "port": "5000",
+              "path": [
+                "api",
+                "employees",
+                "branch",
+                ""
+              ]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "update employee",
+          "request": {
+            "auth": {
+              "type": "bearer",
+              "bearer": [
+                {
+                  "key": "token",
+                  "value": "eyJhbGciOiJIUzM4NCJ9.eyJpYXQiOjE3NzE4MzQxODMsImV4cCI6MTc3MTkyMDU4MywiZW1haWwiOiJzdG9yZWFkbWluNUBnbWFpbC5jb20iLCJhdXRob3JpdGllcyI6IlJPTEVfU1RPUkVfQURNSU4ifQ.7UsbHK_v_9rUQ919OPMu8WzmNH2h6EFvZL5AwjlNgPH48TPTDR69ohSmNXNXUlrA",
+                  "type": "string"
+                }
+              ]
+            },
+            "method": "PUT",
+            "header": [],
+            "body": {
+              "mode": "raw",
+              "raw": "{\r\n    \"fullName\": \"John Doe Updated\",\r\n    \"email\": \"john.doe@gmail.com\",\r\n    \"phone\": \"9876543222\",\r\n    \"role\": \"ROLE_STORE_MANAGER\",\r\n    \"branchId\": 1\r\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            },
+            "url": {
+              "raw": "http://localhost:5000/api/employees/302",
+              "protocol": "http",
+              "host": [
+                "localhost"
+              ],
+              "port": "5000",
+              "path": [
+                "api",
+                "employees",
+                "302"
+              ]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "get store employee by user role",
+          "request": {
+            "auth": {
+              "type": "bearer",
+              "bearer": [
+                {
+                  "key": "token",
+                  "value": "eyJhbGciOiJIUzM4NCJ9.eyJpYXQiOjE3NzE4MzQxODMsImV4cCI6MTc3MTkyMDU4MywiZW1haWwiOiJzdG9yZWFkbWluNUBnbWFpbC5jb20iLCJhdXRob3JpdGllcyI6IlJPTEVfU1RPUkVfQURNSU4ifQ.7UsbHK_v_9rUQ919OPMu8WzmNH2h6EFvZL5AwjlNgPH48TPTDR69ohSmNXNXUlrA",
+                  "type": "string"
+                }
+              ]
+            },
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "http://localhost:5000/api/employees/store/52?userRole=ROLE_STORE_MANAGER",
+              "protocol": "http",
+              "host": [
+                "localhost"
+              ],
+              "port": "5000",
+              "path": [
+                "api",
+                "employees",
+                "store",
+                "52"
+              ],
+              "query": [
+                {
+                  "key": "userRole",
+                  "value": "ROLE_STORE_MANAGER"
+                }
+              ]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "get branch employees",
+          "request": {
+            "auth": {
+              "type": "bearer",
+              "bearer": [
+                {
+                  "key": "token",
+                  "value": "eyJhbGciOiJIUzM4NCJ9.eyJpYXQiOjE3NzE4MzQxODMsImV4cCI6MTc3MTkyMDU4MywiZW1haWwiOiJzdG9yZWFkbWluNUBnbWFpbC5jb20iLCJhdXRob3JpdGllcyI6IlJPTEVfU1RPUkVfQURNSU4ifQ.7UsbHK_v_9rUQ919OPMu8WzmNH2h6EFvZL5AwjlNgPH48TPTDR69ohSmNXNXUlrA",
+                  "type": "string"
+                }
+              ]
+            },
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "http://localhost:5000/api/employees/branch/1?userRole=ROLE_BRANCH_CASHIER",
+              "protocol": "http",
+              "host": [
+                "localhost"
+              ],
+              "port": "5000",
+              "path": [
+                "api",
+                "employees",
+                "branch",
+                "1"
+              ],
+              "query": [
+                {
+                  "key": "userRole",
+                  "value": "ROLE_BRANCH_CASHIER"
+                }
+              ]
+            }
+          },
+          "response": []
+        }
+      ]
+    },
+    {
+      "name": "customer api",
+      "item": [
+        {
+          "name": "create customer",
+          "request": {
+            "auth": {
+              "type": "bearer",
+              "bearer": [
+                {
+                  "key": "token",
+                  "value": "eyJhbGciOiJIUzM4NCJ9.eyJpYXQiOjE3NzE4MzQxODMsImV4cCI6MTc3MTkyMDU4MywiZW1haWwiOiJzdG9yZWFkbWluNUBnbWFpbC5jb20iLCJhdXRob3JpdGllcyI6IlJPTEVfU1RPUkVfQURNSU4ifQ.7UsbHK_v_9rUQ919OPMu8WzmNH2h6EFvZL5AwjlNgPH48TPTDR69ohSmNXNXUlrA",
+                  "type": "string"
+                }
+              ]
+            },
+            "method": "POST",
+            "header": [],
+            "body": {
+              "mode": "raw",
+              "raw": "{\r\n    \"fullName\": \"Rahul Sharma\",\r\n    \"email\": \"rahul.sharma@gmail.com\",\r\n    \"phone\": \"9876543210\"\r\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            },
+            "url": {
+              "raw": "http://localhost:5000/api/customers",
+              "protocol": "http",
+              "host": [
+                "localhost"
+              ],
+              "port": "5000",
+              "path": [
+                "api",
+                "customers"
+              ]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "update customer",
+          "request": {
+            "auth": {
+              "type": "bearer",
+              "bearer": [
+                {
+                  "key": "token",
+                  "value": "eyJhbGciOiJIUzM4NCJ9.eyJpYXQiOjE3NzE4MzQxODMsImV4cCI6MTc3MTkyMDU4MywiZW1haWwiOiJzdG9yZWFkbWluNUBnbWFpbC5jb20iLCJhdXRob3JpdGllcyI6IlJPTEVfU1RPUkVfQURNSU4ifQ.7UsbHK_v_9rUQ919OPMu8WzmNH2h6EFvZL5AwjlNgPH48TPTDR69ohSmNXNXUlrA",
+                  "type": "string"
+                }
+              ]
+            },
+            "method": "PUT",
+            "header": [],
+            "body": {
+              "mode": "raw",
+              "raw": "{\r\n    \"fullName\": \"Rahul Sharma Updated\",\r\n    \"email\": \"rahul.updated@gmail.com\",\r\n    \"phone\": \"9876543999\"\r\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            },
+            "url": {
+              "raw": "http://localhost:5000/api/customers/1",
+              "protocol": "http",
+              "host": [
+                "localhost"
+              ],
+              "port": "5000",
+              "path": [
+                "api",
+                "customers",
+                "1"
+              ]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "get all customers",
+          "request": {
+            "auth": {
+              "type": "bearer",
+              "bearer": [
+                {
+                  "key": "token",
+                  "value": "eyJhbGciOiJIUzM4NCJ9.eyJpYXQiOjE3NzE4MzQxODMsImV4cCI6MTc3MTkyMDU4MywiZW1haWwiOiJzdG9yZWFkbWluNUBnbWFpbC5jb20iLCJhdXRob3JpdGllcyI6IlJPTEVfU1RPUkVfQURNSU4ifQ.7UsbHK_v_9rUQ919OPMu8WzmNH2h6EFvZL5AwjlNgPH48TPTDR69ohSmNXNXUlrA",
+                  "type": "string"
+                }
+              ]
+            },
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "http://localhost:5000/api/customers",
+              "protocol": "http",
+              "host": [
+                "localhost"
+              ],
+              "port": "5000",
+              "path": [
+                "api",
+                "customers"
+              ]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "delete customer",
+          "request": {
+            "auth": {
+              "type": "bearer",
+              "bearer": [
+                {
+                  "key": "token",
+                  "value": "eyJhbGciOiJIUzM4NCJ9.eyJpYXQiOjE3NzE4MzQxODMsImV4cCI6MTc3MTkyMDU4MywiZW1haWwiOiJzdG9yZWFkbWluNUBnbWFpbC5jb20iLCJhdXRob3JpdGllcyI6IlJPTEVfU1RPUkVfQURNSU4ifQ.7UsbHK_v_9rUQ919OPMu8WzmNH2h6EFvZL5AwjlNgPH48TPTDR69ohSmNXNXUlrA",
+                  "type": "string"
+                }
+              ]
+            },
+            "method": "DELETE",
+            "header": [],
+            "url": {
+              "raw": "http://localhost:5000/api/customers/2",
+              "protocol": "http",
+              "host": [
+                "localhost"
+              ],
+              "port": "5000",
+              "path": [
+                "api",
+                "customers",
+                "2"
+              ]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "get by keyword",
+          "request": {
+            "auth": {
+              "type": "bearer",
+              "bearer": [
+                {
+                  "key": "token",
+                  "value": "eyJhbGciOiJIUzM4NCJ9.eyJpYXQiOjE3NzE4MzQxODMsImV4cCI6MTc3MTkyMDU4MywiZW1haWwiOiJzdG9yZWFkbWluNUBnbWFpbC5jb20iLCJhdXRob3JpdGllcyI6IlJPTEVfU1RPUkVfQURNSU4ifQ.7UsbHK_v_9rUQ919OPMu8WzmNH2h6EFvZL5AwjlNgPH48TPTDR69ohSmNXNXUlrA",
+                  "type": "string"
+                }
+              ]
+            },
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "http://localhost:5000/api/customers/search?q=Rahul",
+              "protocol": "http",
+              "host": [
+                "localhost"
+              ],
+              "port": "5000",
+              "path": [
+                "api",
+                "customers",
+                "search"
+              ],
+              "query": [
+                {
+                  "key": "q",
+                  "value": "Rahul"
+                }
+              ]
+            }
+          },
+          "response": []
+        }
+      ]
+    },
+    {
+      "name": "order api",
+      "item": [
+        {
+          "name": "create order",
+          "request": {
+            "auth": {
+              "type": "bearer",
+              "bearer": [
+                {
+                  "key": "token",
+                  "value": "eyJhbGciOiJIUzM4NCJ9.eyJpYXQiOjE3NzIwMTA3NjMsImV4cCI6MTc3MjA5NzE2MywiZW1haWwiOiJqYW5lLmRvZUBnbWFpbC5jb20iLCJhdXRob3JpdGllcyI6IlJPTEVfQlJBTkNIX0NBU0hJRVIifQ.AvlDBfy2V1VgTC6xHEtVDLsOV2RmS6hzYnN3QlkrEKI4ei4O2bX1kpjwrlssOpuu",
+                  "type": "string"
+                }
+              ]
+            },
+            "method": "POST",
+            "header": [],
+            "body": {
+              "mode": "raw",
+              "raw": "{\r\n    \"customerId\": 1,\r\n    \"paymentType\": \"CASH\",\r\n    \"items\": [\r\n        {\r\n            \"productId\": 1,\r\n            \"quantity\": 1,\r\n            \"price\": 74999.0\r\n        }\r\n    ]\r\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            },
+            "url": {
+              "raw": "http://localhost:5000/api/orders",
+              "protocol": "http",
+              "host": [
+                "localhost"
+              ],
+              "port": "5000",
+              "path": [
+                "api",
+                "orders"
+              ]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "get order by id",
+          "request": {
+            "auth": {
+              "type": "bearer",
+              "bearer": [
+                {
+                  "key": "token",
+                  "value": "eyJhbGciOiJIUzM4NCJ9.eyJpYXQiOjE3NzIwMTA3NjMsImV4cCI6MTc3MjA5NzE2MywiZW1haWwiOiJqYW5lLmRvZUBnbWFpbC5jb20iLCJhdXRob3JpdGllcyI6IlJPTEVfQlJBTkNIX0NBU0hJRVIifQ.AvlDBfy2V1VgTC6xHEtVDLsOV2RmS6hzYnN3QlkrEKI4ei4O2bX1kpjwrlssOpuu",
+                  "type": "string"
+                }
+              ]
+            },
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "http://localhost:5000/api/orders/1",
+              "protocol": "http",
+              "host": [
+                "localhost"
+              ],
+              "port": "5000",
+              "path": [
+                "api",
+                "orders",
+                "1"
+              ]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "get order by branch",
+          "request": {
+            "auth": {
+              "type": "bearer",
+              "bearer": [
+                {
+                  "key": "token",
+                  "value": "eyJhbGciOiJIUzM4NCJ9.eyJpYXQiOjE3NzIwMTA3NjMsImV4cCI6MTc3MjA5NzE2MywiZW1haWwiOiJqYW5lLmRvZUBnbWFpbC5jb20iLCJhdXRob3JpdGllcyI6IlJPTEVfQlJBTkNIX0NBU0hJRVIifQ.AvlDBfy2V1VgTC6xHEtVDLsOV2RmS6hzYnN3QlkrEKI4ei4O2bX1kpjwrlssOpuu",
+                  "type": "string"
+                }
+              ]
+            },
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "http://localhost:5000/api/orders/branch/1",
+              "protocol": "http",
+              "host": [
+                "localhost"
+              ],
+              "port": "5000",
+              "path": [
+                "api",
+                "orders",
+                "branch",
+                "1"
+              ]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "get order by cashier",
+          "request": {
+            "auth": {
+              "type": "bearer",
+              "bearer": [
+                {
+                  "key": "token",
+                  "value": "eyJhbGciOiJIUzM4NCJ9.eyJpYXQiOjE3NzIwMTA3NjMsImV4cCI6MTc3MjA5NzE2MywiZW1haWwiOiJqYW5lLmRvZUBnbWFpbC5jb20iLCJhdXRob3JpdGllcyI6IlJPTEVfQlJBTkNIX0NBU0hJRVIifQ.AvlDBfy2V1VgTC6xHEtVDLsOV2RmS6hzYnN3QlkrEKI4ei4O2bX1kpjwrlssOpuu",
+                  "type": "string"
+                }
+              ]
+            },
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "http://localhost:5000/api/orders/cashier/352",
+              "protocol": "http",
+              "host": [
+                "localhost"
+              ],
+              "port": "5000",
+              "path": [
+                "api",
+                "orders",
+                "cashier",
+                "352"
+              ]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "get today order",
+          "request": {
+            "auth": {
+              "type": "bearer",
+              "bearer": [
+                {
+                  "key": "token",
+                  "value": "eyJhbGciOiJIUzM4NCJ9.eyJpYXQiOjE3NzIwMTA3NjMsImV4cCI6MTc3MjA5NzE2MywiZW1haWwiOiJqYW5lLmRvZUBnbWFpbC5jb20iLCJhdXRob3JpdGllcyI6IlJPTEVfQlJBTkNIX0NBU0hJRVIifQ.AvlDBfy2V1VgTC6xHEtVDLsOV2RmS6hzYnN3QlkrEKI4ei4O2bX1kpjwrlssOpuu",
+                  "type": "string"
+                }
+              ]
+            },
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "http://localhost:5000/api/orders/today/branch/1",
+              "protocol": "http",
+              "host": [
+                "localhost"
+              ],
+              "port": "5000",
+              "path": [
+                "api",
+                "orders",
+                "today",
+                "branch",
+                "1"
+              ]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "get customer order",
+          "request": {
+            "auth": {
+              "type": "bearer",
+              "bearer": [
+                {
+                  "key": "token",
+                  "value": "eyJhbGciOiJIUzM4NCJ9.eyJpYXQiOjE3NzIwMTA3NjMsImV4cCI6MTc3MjA5NzE2MywiZW1haWwiOiJqYW5lLmRvZUBnbWFpbC5jb20iLCJhdXRob3JpdGllcyI6IlJPTEVfQlJBTkNIX0NBU0hJRVIifQ.AvlDBfy2V1VgTC6xHEtVDLsOV2RmS6hzYnN3QlkrEKI4ei4O2bX1kpjwrlssOpuu",
+                  "type": "string"
+                }
+              ]
+            },
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "http://localhost:5000/api/orders/customer/1",
+              "protocol": "http",
+              "host": [
+                "localhost"
+              ],
+              "port": "5000",
+              "path": [
+                "api",
+                "orders",
+                "customer",
+                "1"
+              ]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "get recent orders",
+          "request": {
+            "auth": {
+              "type": "bearer",
+              "bearer": [
+                {
+                  "key": "token",
+                  "value": "eyJhbGciOiJIUzM4NCJ9.eyJpYXQiOjE3NzIwMTA3NjMsImV4cCI6MTc3MjA5NzE2MywiZW1haWwiOiJqYW5lLmRvZUBnbWFpbC5jb20iLCJhdXRob3JpdGllcyI6IlJPTEVfQlJBTkNIX0NBU0hJRVIifQ.AvlDBfy2V1VgTC6xHEtVDLsOV2RmS6hzYnN3QlkrEKI4ei4O2bX1kpjwrlssOpuu",
+                  "type": "string"
+                }
+              ]
+            },
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "http://localhost:5000/api/orders/recent/1",
+              "protocol": "http",
+              "host": [
+                "localhost"
+              ],
+              "port": "5000",
+              "path": [
+                "api",
+                "orders",
+                "recent",
+                "1"
+              ]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "get order by branch and customer id",
+          "request": {
+            "auth": {
+              "type": "bearer",
+              "bearer": [
+                {
+                  "key": "token",
+                  "value": "eyJhbGciOiJIUzM4NCJ9.eyJpYXQiOjE3NzIwMTA3NjMsImV4cCI6MTc3MjA5NzE2MywiZW1haWwiOiJqYW5lLmRvZUBnbWFpbC5jb20iLCJhdXRob3JpdGllcyI6IlJPTEVfQlJBTkNIX0NBU0hJRVIifQ.AvlDBfy2V1VgTC6xHEtVDLsOV2RmS6hzYnN3QlkrEKI4ei4O2bX1kpjwrlssOpuu",
+                  "type": "string"
+                }
+              ]
+            },
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "http://localhost:5000/api/orders/branch/1?customerId=1",
+              "protocol": "http",
+              "host": [
+                "localhost"
+              ],
+              "port": "5000",
+              "path": [
+                "api",
+                "orders",
+                "branch",
+                "1"
+              ],
+              "query": [
+                {
+                  "key": "customerId",
+                  "value": "1"
+                }
+              ]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "get orders by branch and payment type",
+          "request": {
+            "auth": {
+              "type": "bearer",
+              "bearer": [
+                {
+                  "key": "token",
+                  "value": "eyJhbGciOiJIUzM4NCJ9.eyJpYXQiOjE3NzIwMTA3NjMsImV4cCI6MTc3MjA5NzE2MywiZW1haWwiOiJqYW5lLmRvZUBnbWFpbC5jb20iLCJhdXRob3JpdGllcyI6IlJPTEVfQlJBTkNIX0NBU0hJRVIifQ.AvlDBfy2V1VgTC6xHEtVDLsOV2RmS6hzYnN3QlkrEKI4ei4O2bX1kpjwrlssOpuu",
+                  "type": "string"
+                }
+              ]
+            },
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "http://localhost:5000/api/orders/branch/1?paymentType=CASH",
+              "protocol": "http",
+              "host": [
+                "localhost"
+              ],
+              "port": "5000",
+              "path": [
+                "api",
+                "orders",
+                "branch",
+                "1"
+              ],
+              "query": [
+                {
+                  "key": "paymentType",
+                  "value": "CASH"
+                }
+              ]
+            }
+          },
+          "response": []
+        }
+      ]
+    },
+    {
+      "name": "refund api",
+      "item": [
+        {
+          "name": "create refund",
+          "request": {
+            "auth": {
+              "type": "bearer",
+              "bearer": [
+                {
+                  "key": "token",
+                  "value": "eyJhbGciOiJIUzM4NCJ9.eyJpYXQiOjE3NzIxMjU0MzAsImV4cCI6MTc3MjIxMTgzMCwiZW1haWwiOiJqYW5lLmRvZUBnbWFpbC5jb20iLCJhdXRob3JpdGllcyI6IlJPTEVfQlJBTkNIX0NBU0hJRVIifQ.1CpXXgbknagVnhFydmHXpPvnOWP3WqzgRYDsh7e7FuMOfX87XpA1mFoQGQiuUPWE",
+                  "type": "string"
+                }
+              ]
+            },
+            "method": "POST",
+            "header": [],
+            "body": {
+              "mode": "raw",
+              "raw": "{\r\n    \"orderId\": 1,\r\n    \"reason\": \"Product damaged\",\r\n    \"amount\": 74999.0,\r\n    \"paymentType\": \"CASH\",\r\n    \"branchId\": 1\r\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            },
+            "url": {
+              "raw": "http://localhost:5000/api/refunds",
+              "protocol": "http",
+              "host": [
+                "localhost"
+              ],
+              "port": "5000",
+              "path": [
+                "api",
+                "refunds"
+              ]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "get all refunds",
+          "request": {
+            "auth": {
+              "type": "bearer",
+              "bearer": [
+                {
+                  "key": "token",
+                  "value": "eyJhbGciOiJIUzM4NCJ9.eyJpYXQiOjE3NzIxMjU0MzAsImV4cCI6MTc3MjIxMTgzMCwiZW1haWwiOiJqYW5lLmRvZUBnbWFpbC5jb20iLCJhdXRob3JpdGllcyI6IlJPTEVfQlJBTkNIX0NBU0hJRVIifQ.1CpXXgbknagVnhFydmHXpPvnOWP3WqzgRYDsh7e7FuMOfX87XpA1mFoQGQiuUPWE",
+                  "type": "string"
+                }
+              ]
+            },
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "http://localhost:5000/api/refunds",
+              "protocol": "http",
+              "host": [
+                "localhost"
+              ],
+              "port": "5000",
+              "path": [
+                "api",
+                "refunds"
+              ]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "get refund by id",
+          "request": {
+            "auth": {
+              "type": "bearer",
+              "bearer": [
+                {
+                  "key": "token",
+                  "value": "eyJhbGciOiJIUzM4NCJ9.eyJpYXQiOjE3NzIxMjU0MzAsImV4cCI6MTc3MjIxMTgzMCwiZW1haWwiOiJqYW5lLmRvZUBnbWFpbC5jb20iLCJhdXRob3JpdGllcyI6IlJPTEVfQlJBTkNIX0NBU0hJRVIifQ.1CpXXgbknagVnhFydmHXpPvnOWP3WqzgRYDsh7e7FuMOfX87XpA1mFoQGQiuUPWE",
+                  "type": "string"
+                }
+              ]
+            },
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "http://localhost:5000/api/refunds/1",
+              "protocol": "http",
+              "host": [
+                "localhost"
+              ],
+              "port": "5000",
+              "path": [
+                "api",
+                "refunds",
+                "1"
+              ]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "get refund by cashier",
+          "request": {
+            "auth": {
+              "type": "bearer",
+              "bearer": [
+                {
+                  "key": "token",
+                  "value": "eyJhbGciOiJIUzM4NCJ9.eyJpYXQiOjE3NzIxMjU0MzAsImV4cCI6MTc3MjIxMTgzMCwiZW1haWwiOiJqYW5lLmRvZUBnbWFpbC5jb20iLCJhdXRob3JpdGllcyI6IlJPTEVfQlJBTkNIX0NBU0hJRVIifQ.1CpXXgbknagVnhFydmHXpPvnOWP3WqzgRYDsh7e7FuMOfX87XpA1mFoQGQiuUPWE",
+                  "type": "string"
+                }
+              ]
+            },
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "http://localhost:5000/api/refunds/cashier/352",
+              "protocol": "http",
+              "host": [
+                "localhost"
+              ],
+              "port": "5000",
+              "path": [
+                "api",
+                "refunds",
+                "cashier",
+                "352"
+              ]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "get refund by branch",
+          "request": {
+            "auth": {
+              "type": "bearer",
+              "bearer": [
+                {
+                  "key": "token",
+                  "value": "eyJhbGciOiJIUzM4NCJ9.eyJpYXQiOjE3NzIxMjU0MzAsImV4cCI6MTc3MjIxMTgzMCwiZW1haWwiOiJqYW5lLmRvZUBnbWFpbC5jb20iLCJhdXRob3JpdGllcyI6IlJPTEVfQlJBTkNIX0NBU0hJRVIifQ.1CpXXgbknagVnhFydmHXpPvnOWP3WqzgRYDsh7e7FuMOfX87XpA1mFoQGQiuUPWE",
+                  "type": "string"
+                }
+              ]
+            },
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "http://localhost:5000/api/refunds/branch/1",
+              "protocol": "http",
+              "host": [
+                "localhost"
+              ],
+              "port": "5000",
+              "path": [
+                "api",
+                "refunds",
+                "branch",
+                "1"
+              ]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "get refund by cashier and date range",
+          "request": {
+            "auth": {
+              "type": "bearer",
+              "bearer": [
+                {
+                  "key": "token",
+                  "value": "eyJhbGciOiJIUzM4NCJ9.eyJpYXQiOjE3NzIxMjU0MzAsImV4cCI6MTc3MjIxMTgzMCwiZW1haWwiOiJqYW5lLmRvZUBnbWFpbC5jb20iLCJhdXRob3JpdGllcyI6IlJPTEVfQlJBTkNIX0NBU0hJRVIifQ.1CpXXgbknagVnhFydmHXpPvnOWP3WqzgRYDsh7e7FuMOfX87XpA1mFoQGQiuUPWE",
+                  "type": "string"
+                }
+              ]
+            },
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "http://localhost:5000/api/refunds/cashier/352/range?startDate=2026-02-01T00:00:00&endDate=2026-02-28T23:59:59",
+              "protocol": "http",
+              "host": [
+                "localhost"
+              ],
+              "port": "5000",
+              "path": [
+                "api",
+                "refunds",
+                "cashier",
+                "352",
+                "range"
+              ],
+              "query": [
+                {
+                  "key": "startDate",
+                  "value": "2026-02-01T00:00:00"
+                },
+                {
+                  "key": "endDate",
+                  "value": "2026-02-28T23:59:59"
+                }
+              ]
+            }
+          },
+          "response": []
+        }
+      ]
+    },
+    {
+      "name": "shift report api",
+      "item": [
+        {
+          "name": "start shift",
+          "request": {
+            "auth": {
+              "type": "bearer",
+              "bearer": [
+                {
+                  "key": "token",
+                  "value": "eyJhbGciOiJIUzM4NCJ9.eyJpYXQiOjE3NzI0NzQxNDIsImV4cCI6MTc3MjU2MDU0MiwiZW1haWwiOiJqYW5lLmRvZUBnbWFpbC5jb20iLCJhdXRob3JpdGllcyI6IlJPTEVfQlJBTkNIX0NBU0hJRVIifQ.JZikKqXvKAwZ-e5BiQocAaiw9NtaHlUKO7lC0RIqaQ_oJsdYJMige11CJCfLwbE-",
+                  "type": "string"
+                }
+              ]
+            },
+            "method": "POST",
+            "header": [],
+            "url": {
+              "raw": "http://localhost:5000/api/shift-reports/start",
+              "protocol": "http",
+              "host": [
+                "localhost"
+              ],
+              "port": "5000",
+              "path": [
+                "api",
+                "shift-reports",
+                "start"
+              ]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "end shift",
+          "request": {
+            "auth": {
+              "type": "bearer",
+              "bearer": [
+                {
+                  "key": "token",
+                  "value": "eyJhbGciOiJIUzM4NCJ9.eyJpYXQiOjE3NzI0NzQxNDIsImV4cCI6MTc3MjU2MDU0MiwiZW1haWwiOiJqYW5lLmRvZUBnbWFpbC5jb20iLCJhdXRob3JpdGllcyI6IlJPTEVfQlJBTkNIX0NBU0hJRVIifQ.JZikKqXvKAwZ-e5BiQocAaiw9NtaHlUKO7lC0RIqaQ_oJsdYJMige11CJCfLwbE-",
+                  "type": "string"
+                }
+              ]
+            },
+            "method": "PATCH",
+            "header": [],
+            "url": {
+              "raw": "http://localhost:5000/api/shift-reports/end",
+              "protocol": "http",
+              "host": [
+                "localhost"
+              ],
+              "port": "5000",
+              "path": [
+                "api",
+                "shift-reports",
+                "end"
+              ]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "current shift progress",
+          "request": {
+            "auth": {
+              "type": "bearer",
+              "bearer": [
+                {
+                  "key": "token",
+                  "value": "eyJhbGciOiJIUzM4NCJ9.eyJpYXQiOjE3NzI0NzQxNDIsImV4cCI6MTc3MjU2MDU0MiwiZW1haWwiOiJqYW5lLmRvZUBnbWFpbC5jb20iLCJhdXRob3JpdGllcyI6IlJPTEVfQlJBTkNIX0NBU0hJRVIifQ.JZikKqXvKAwZ-e5BiQocAaiw9NtaHlUKO7lC0RIqaQ_oJsdYJMige11CJCfLwbE-",
+                  "type": "string"
+                }
+              ]
+            },
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "http://localhost:5000/api/shift-reports/current",
+              "protocol": "http",
+              "host": [
+                "localhost"
+              ],
+              "port": "5000",
+              "path": [
+                "api",
+                "shift-reports",
+                "current"
+              ]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "get shift report by date",
+          "request": {
+            "auth": {
+              "type": "bearer",
+              "bearer": [
+                {
+                  "key": "token",
+                  "value": "eyJhbGciOiJIUzM4NCJ9.eyJpYXQiOjE3NzI0NzQxNDIsImV4cCI6MTc3MjU2MDU0MiwiZW1haWwiOiJqYW5lLmRvZUBnbWFpbC5jb20iLCJhdXRob3JpdGllcyI6IlJPTEVfQlJBTkNIX0NBU0hJRVIifQ.JZikKqXvKAwZ-e5BiQocAaiw9NtaHlUKO7lC0RIqaQ_oJsdYJMige11CJCfLwbE-",
+                  "type": "string"
+                }
+              ]
+            },
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "http://localhost:5000/api/shift-reports/cashier/352/by-date?date=2026-03-02T00:00:00",
+              "protocol": "http",
+              "host": [
+                "localhost"
+              ],
+              "port": "5000",
+              "path": [
+                "api",
+                "shift-reports",
+                "cashier",
+                "352",
+                "by-date"
+              ],
+              "query": [
+                {
+                  "key": "date",
+                  "value": "2026-03-02T00:00:00"
+                }
+              ]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "get shift report by branch",
+          "request": {
+            "auth": {
+              "type": "bearer",
+              "bearer": [
+                {
+                  "key": "token",
+                  "value": "eyJhbGciOiJIUzM4NCJ9.eyJpYXQiOjE3NzI0NzQxNDIsImV4cCI6MTc3MjU2MDU0MiwiZW1haWwiOiJqYW5lLmRvZUBnbWFpbC5jb20iLCJhdXRob3JpdGllcyI6IlJPTEVfQlJBTkNIX0NBU0hJRVIifQ.JZikKqXvKAwZ-e5BiQocAaiw9NtaHlUKO7lC0RIqaQ_oJsdYJMige11CJCfLwbE-",
+                  "type": "string"
+                }
+              ]
+            },
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "http://localhost:5000/api/shift-reports/branch/1",
+              "protocol": "http",
+              "host": [
+                "localhost"
+              ],
+              "port": "5000",
+              "path": [
+                "api",
+                "shift-reports",
+                "branch",
+                "1"
+              ]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "get shift report by id",
+          "request": {
+            "auth": {
+              "type": "bearer",
+              "bearer": [
+                {
+                  "key": "token",
+                  "value": "eyJhbGciOiJIUzM4NCJ9.eyJpYXQiOjE3NzI0NzQxNDIsImV4cCI6MTc3MjU2MDU0MiwiZW1haWwiOiJqYW5lLmRvZUBnbWFpbC5jb20iLCJhdXRob3JpdGllcyI6IlJPTEVfQlJBTkNIX0NBU0hJRVIifQ.JZikKqXvKAwZ-e5BiQocAaiw9NtaHlUKO7lC0RIqaQ_oJsdYJMige11CJCfLwbE-",
+                  "type": "string"
+                }
+              ]
+            },
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "http://localhost:5000/api/shift-reports/1",
+              "protocol": "http",
+              "host": [
+                "localhost"
+              ],
+              "port": "5000",
+              "path": [
+                "api",
+                "shift-reports",
+                "1"
+              ]
+            }
+          },
+          "response": []
+        }
+      ]
+    },
+    {
+      "name": "get user by id",
+      "request": {
+        "auth": {
+          "type": "bearer",
+          "bearer": [
+            {
+              "key": "token",
+              "value": "eyJhbGciOiJIUzM4NCJ9.eyJpYXQiOjE3NzA0ODAyMjIsImV4cCI6MTc3MDU2NjYyMiwiZW1haWwiOiJ2aWpheUBnbWFpbC5jb20iLCJhdXRob3JpdGllcyI6IlJPTEVfU1RPUkVfTUFOQUdFUiJ9.U-QOgx_3Rcr0Sq1wW_-wcTXX2OqpT8YLoOGmZCqYpFrMnLREYBTQwafdfcuS_sri",
+              "type": "string"
+            }
+          ]
+        },
+        "method": "GET",
+        "header": [],
+        "url": {
+          "raw": "http://localhost:5000/api/users/3",
+          "protocol": "http",
+          "host": [
+            "localhost"
+          ],
+          "port": "5000",
+          "path": [
+            "api",
+            "users",
+            "3"
+          ]
+        }
+      },
+      "response": []
+    }
+  ]
+}
