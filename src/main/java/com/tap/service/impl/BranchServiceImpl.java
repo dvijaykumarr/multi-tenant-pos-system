@@ -29,12 +29,21 @@ public class BranchServiceImpl implements BranchService {
 
     @Override
     public BranchDTO createBranch(BranchDTO branchDTO) throws UserException {
+
         User currentUser = userService.getCurrentUser();
-        Store store = storeRepository.findByStoreAdminId(currentUser.getId());
+
+        Store store = storeRepository.findById(branchDTO.getStoreId())
+                .orElseThrow(() -> new UserException("Store not found"));
+
+        try {
+            checkAuthority(currentUser, store);
+        } catch (Exception e) {
+            throw new UserException(e.getMessage());
+        }
 
         Branch branch = BranchMapper.toEntity(branchDTO, store);
-        Branch savedBranch = branchRepository.save(branch);
 
+        Branch savedBranch = branchRepository.save(branch);
 
         return BranchMapper.toDTO(savedBranch);
     }
@@ -42,14 +51,16 @@ public class BranchServiceImpl implements BranchService {
     @Override
     public BranchDTO updateBranch(Long id, BranchDTO branchDTO) throws Exception {
 
-        Branch existing = branchRepository.findById(id).orElseThrow(
-                () -> new Exception("Branch not exist...")
-        );
+        Branch existing = branchRepository.findById(id)
+                .orElseThrow(() -> new Exception("Branch not exist..."));
+
+        User currentUser = userService.getCurrentUser();
+
+        checkAuthority(currentUser, existing.getStore());
 
         existing.setName(branchDTO.getName());
         existing.setWorkingDays(branchDTO.getWorkingDays());
         existing.setEmail(branchDTO.getEmail());
-        existing.setPhone(branchDTO.getPhone());
         existing.setPhone(branchDTO.getPhone());
         existing.setAddress(branchDTO.getAddress());
         existing.setOpenTime(branchDTO.getOpenTime());
@@ -57,36 +68,67 @@ public class BranchServiceImpl implements BranchService {
         existing.setUpdatedAt(LocalDateTime.now());
 
         Branch updatedBranch = branchRepository.save(existing);
-        return BranchMapper.toDTO(updatedBranch) ;
+
+        return BranchMapper.toDTO(updatedBranch);
     }
 
     @Override
     public void deleteBranch(Long id) throws Exception {
-        Branch existing = branchRepository.findById(id).orElseThrow(
-                () -> new Exception("Branch not exist...")
-        );
+
+        Branch existing = branchRepository.findById(id)
+                .orElseThrow(() -> new Exception("Branch not exist..."));
+
+        User currentUser = userService.getCurrentUser();
+
+        checkAuthority(currentUser, existing.getStore());
 
         branchRepository.delete(existing);
-
-
-    }
-
-    @Override
-    public List<BranchDTO> getAllBranchesByStoreId(Long storeId) {
-
-        List<Branch> branches = branchRepository.findByStoreId(storeId);
-        return branches.stream().map(BranchMapper::toDTO)
-                .collect(Collectors.toList());
-
     }
 
     @Override
     public BranchDTO getBranchById(Long id) throws Exception {
 
-        Branch existing = branchRepository.findById(id).orElseThrow(
-                () -> new Exception("Branch not exist...")
-        );
+        Branch existing = branchRepository.findById(id)
+                .orElseThrow(() -> new Exception("Branch not exist..."));
+
+        User currentUser = userService.getCurrentUser();
+
+        checkAuthority(currentUser, existing.getStore());
 
         return BranchMapper.toDTO(existing);
+    }
+
+    @Override
+    public List<BranchDTO> getAllBranchesByStoreId(Long storeId) throws Exception {
+
+        Store store = storeRepository.findById(storeId)
+                .orElseThrow(() -> new Exception("Store not found"));
+
+        User currentUser = userService.getCurrentUser();
+
+        checkAuthority(currentUser, store);
+
+        List<Branch> branches = branchRepository.findByStoreId(storeId);
+
+        return branches.stream()
+                .map(BranchMapper::toDTO)
+                .collect(Collectors.toList());
+    }
+
+    private void checkAuthority(User user, Store store) throws Exception {
+
+        boolean isStoreAdmin =
+                user.getRole().name().equals("ROLE_STORE_ADMIN");
+
+        boolean isStoreManager =
+                user.getRole().name().equals("ROLE_STORE_MANAGER");
+
+        boolean isSameStore =
+                store.getStoreAdmin() != null &&
+                        store.getStoreAdmin().getId().equals(user.getId());
+
+        if (!(isStoreAdmin && isSameStore) && !isStoreManager) {
+            throw new Exception("You don't have permission to manage this branch");
+        }
     }
 }
