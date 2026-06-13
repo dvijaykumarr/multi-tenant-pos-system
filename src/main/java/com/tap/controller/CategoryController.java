@@ -51,14 +51,12 @@ public class CategoryController {
     public ResponseEntity<ApiResponse> deleteCategory(
             @RequestBody CategoryDTO categoryDTO,
             @PathVariable Long id) throws Exception {
-        categoryService.updateCategory(id, categoryDTO);
+
+        categoryService.deleteCategory(id);
         ApiResponse apiResponse = new ApiResponse();
         apiResponse.setMessage("Category deleted successfully");
 
-        return ResponseEntity.ok(
-                apiResponse
-
-        );
+        return ResponseEntity.ok(apiResponse);
 
     }
 
