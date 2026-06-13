@@ -15,7 +15,7 @@ public interface StoreService {
     List<StoreDto> getAllStores();
     Store getStoreByAdmin() throws UserException;
     StoreDto updateStore(Long id, StoreDto storeDto) throws Exception;
-    void deleteStore(Long id) throws UserException;
+    void deleteStore(Long id) throws Exception;
     StoreDto getStoreByEmployee() throws UserException;
 
     //platform owner can change the status of store either he can approve, or block, or pending etc

@@ -61,12 +61,15 @@ public class StoreServiceImpl implements StoreService {
     @Override
     public StoreDto updateStore(Long id, StoreDto storeDto) throws Exception {
 
-        User currentUSer = userService.getCurrentUser();
+        User currentUser = userService.getCurrentUser();
 
-        Store existing = storeRepository.findByStoreAdminId(currentUSer.getId());
+        // find store using URL id
+        Store existing = storeRepository.findById(id)
+                .orElseThrow(() -> new Exception("Store not found"));
 
-        if(existing == null){
-            throw new Exception("Store not found");
+        // security check
+        if(!existing.getStoreAdmin().getId().equals(currentUser.getId())){
+            throw new Exception("You are not authorized to update this store");
         }
 
         existing.setBrand(storeDto.getBrand());
@@ -77,34 +80,60 @@ public class StoreServiceImpl implements StoreService {
         }
 
         if(storeDto.getContact() != null){
+
             StoreContact contact = StoreContact.builder()
                     .address(storeDto.getContact().getAddress())
-                    .phone(storeDto.getContact().getEmail())
+                    .phone(storeDto.getContact().getPhone())
                     .email(storeDto.getContact().getEmail())
                     .build();
+
             existing.setContact(contact);
         }
 
         Store updatedStore = storeRepository.save(existing);
+
         return StoreMapper.toDto(updatedStore);
     }
 
     @Override
-    public void deleteStore(Long id) throws UserException {
+    public void deleteStore(Long id) throws Exception {
 
-        Store store = getStoreByAdmin();
+        User currentUser = userService.getCurrentUser();
+
+        Store store = storeRepository.findById(id)
+                .orElseThrow(() -> new Exception("Store not found"));
+
+        // security check
+        if(!store.getStoreAdmin().getId().equals(currentUser.getId())){
+            throw new Exception("You are not authorized to delete this store");
+        }
 
         storeRepository.delete(store);
     }
 
+//    @Override
+//    public StoreDto getStoreByEmployee() throws UserException {
+//
+//        User currentUser = userService.getCurrentUser();
+//        if(currentUser == null){
+//            throw  new UserException("You don't have permission to access this store");
+//
+//        }
+//        return StoreMapper.toDto(currentUser.getStore());
+//    }
     @Override
     public StoreDto getStoreByEmployee() throws UserException {
 
         User currentUser = userService.getCurrentUser();
-        if(currentUser == null){
-            throw  new UserException("You don't have permission to access this store");
 
+        if(currentUser == null){
+            throw new UserException("User not found");
         }
+
+        if(currentUser.getStore() == null){
+            throw new UserException("No store assigned to this employee");
+        }
+
         return StoreMapper.toDto(currentUser.getStore());
     }
 
