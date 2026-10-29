@@ -61,7 +61,7 @@ public class AuthServiceImpl implements AuthService {
         );
 
         SecurityContextHolder.getContext().setAuthentication(authentication);
-        String jwt = jwtProvider.genrateToken(authentication);
+        String jwt = jwtProvider.generateToken(authentication);
 
         AuthResponse authResponse = new AuthResponse();
         authResponse.setJwt(jwt);
@@ -83,7 +83,7 @@ public class AuthServiceImpl implements AuthService {
         Collection<? extends GrantedAuthority> authorities = authentication.getAuthorities();
         String role = authorities.iterator().next().getAuthority();
 
-        String jwt = jwtProvider.genrateToken(authentication);
+        String jwt = jwtProvider.generateToken(authentication);
 
         User user = userRepository.findByEmail(email);
         user.setLastLogin(LocalDateTime.now());
