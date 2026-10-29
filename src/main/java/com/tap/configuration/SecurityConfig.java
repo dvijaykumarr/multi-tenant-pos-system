@@ -31,9 +31,6 @@ public class SecurityConfig {
                 .authorizeHttpRequests(authorize ->
                         authorize
 
-                                // ✅ CHANGE 2 (MOST IMPORTANT FIX)
-                                // Allow signup & login endpoints WITHOUT JWT token
-                                // This allows request to reach controller
                                 .requestMatchers("/auth/**").permitAll()
                                 .requestMatchers("/api/super-admin/**").hasRole("ADMIN")
                                 .requestMatchers("/api/**").authenticated()

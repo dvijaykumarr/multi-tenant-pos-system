@@ -19,24 +19,14 @@ public class AuthController {
     private  final AuthService authService;
 
     //  http://localhost:500//auth/signup
-//
+
     @PostMapping("/signup")
-    public ResponseEntity<AuthResponse> signupHandler(
-            @RequestBody UserDto userDto
-            ) throws UserException {
+    public ResponseEntity<AuthResponse> signupHandler(@RequestBody UserDto userDto) throws UserException {
         return  ResponseEntity.ok(
                 authService.signup(userDto)
         );
 
     }
-//@PostMapping("/signup")
-//public ResponseEntity<AuthResponse> signupHandler(@RequestBody UserDto userDto) throws UserException {
-//
-//    System.out.println("SIGNUP CONTROLLER CALLED");
-//
-//    return ResponseEntity.ok(authService.signup(userDto));
-//}
-
 
     @PostMapping("/login")
     public ResponseEntity<AuthResponse> loginHandler(

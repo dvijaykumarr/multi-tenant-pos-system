@@ -40,4 +40,6 @@ public class BranchDTO {
     private Long storeId;
 
     private UserDto manager;
+
+
 }
