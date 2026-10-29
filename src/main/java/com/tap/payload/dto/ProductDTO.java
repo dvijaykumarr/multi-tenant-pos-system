@@ -45,6 +45,34 @@ public class ProductDTO {
 
     private LocalDateTime updatedAt;
 
+    public ProductDTO(
+            Long id,
+            String name,
+            String sku,
+            String description,
+            Double mrp,
+            Double sellingPrice,
+            String brand,
+            Long categoryId,
+            Long storeId,
+            String image,
+            LocalDateTime createdAt,
+            LocalDateTime updatedAt
+    ) {
+        this.id = id;
+        this.name = name;
+        this.sku = sku;
+        this.description = description;
+        this.mrp = mrp;
+        this.sellingPrice = sellingPrice;
+        this.brand = brand;
+        this.categoryId = categoryId;
+        this.storeId = storeId;
+        this.image = image;
+        this.createdAt = createdAt;
+        this.updatedAt = updatedAt;
+    }
+
 
 
 }

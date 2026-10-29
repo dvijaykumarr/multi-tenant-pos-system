@@ -42,4 +42,9 @@ public class BranchDTO {
     private UserDto manager;
 
 
+    public BranchDTO(Long id, String name, String address) {
+        this.id = id;
+        this.name = name;
+        this.address = address;
+    }
 }

@@ -2,7 +2,10 @@ package com.tap.repository;
 
 import com.tap.modal.Refund;
 import com.tap.modal.User;
+import com.tap.payload.dto.RefundDTO;
 import org.springframework.data.jpa.repository.JpaRepository;
+import org.springframework.data.jpa.repository.Query;
+import org.springframework.data.repository.query.Param;
 import org.springframework.stereotype.Repository;
 
 import java.time.LocalDateTime;
@@ -18,6 +21,31 @@ public interface RefundRepository extends JpaRepository<Refund, Long> {
     List<Refund> findByCashierId(Long id);
     List<Refund> findByShiftReportId(Long id);
     List<Refund> findByBranchId(Long id);
+
+    //methods for store analytics
+    @Query("SELECT COUNT(r) FROM Refund r WHERE r.order.branch.store.storeAdmin.id = :storeAdminId")
+    int countByStoreAdminId(@Param("storeAdminId") Long storeAdminId);
+
+    @Query("""
+          SELECT new com.tap.payload.dto.RefundDTO(
+                  r.id,
+                  r.order.id,
+                  r.reason,
+                  r.amount,
+                  r.order.cashier.fullName,
+                  r.shiftReport.id,
+                  r.order.branch.id,
+                  r.createdAt
+              )
+            FROM Refund r
+            WHERE r.order.branch.store.storeAdmin.id = :storeAdminId
+            GROUP BY FUNCTION('DATE', r.createdAt),\s
+                         r.id, r.order.id, r.reason, r.amount,\s
+                         r.order.cashier.fullName, r.shiftReport.id,\s
+                         r.order.branch.id, r.createdAt
+            HAVING SUM(r.amount) > 5000
+    """)
+    List<RefundDTO> findRefundSpikes(@Param("storeAdminId") Long storeAdminId);
 
 
 

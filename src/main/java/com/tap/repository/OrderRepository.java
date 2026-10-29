@@ -2,6 +2,7 @@ package com.tap.repository;
 
 import com.tap.modal.Order;
 import com.tap.modal.User;
+import com.tap.payload.storeAnalytics.BranchSalesDTO;
 import com.tap.payload.storeAnalytics.PaymentInsightDTO;
 import com.tap.payload.storeAnalytics.TimeSeriesPointDTO;
 import org.springframework.data.jpa.repository.JpaRepository;
@@ -131,6 +132,19 @@ public interface OrderRepository extends JpaRepository<Order, Long> {
         GROUP BY o.paymentType
     """)
     List<PaymentInsightDTO> getSalesByPaymentMethod(@Param("storeAdminId") Long storeAdminId);
+
+
+
+    @Query("""
+        SELECT new com.tap.payload.storeAnalytics.BranchSalesDTO(
+            o.branch.name,
+            SUM(o.totalAmount)
+        )
+        FROM Order o
+        WHERE o.branch.store.storeAdmin.id = :storeAdminId
+        GROUP BY o.branch.id
+    """)
+    List<BranchSalesDTO> getSalesByBranch(@Param("storeAdminId") Long storeAdminId);
 
 
 
