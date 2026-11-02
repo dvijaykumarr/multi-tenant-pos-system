@@ -1,12 +1,14 @@
 package com.tap.controller;
 
 
+import com.tap.configuration.AccessRules;
 import com.tap.payload.adminAnalytics.DashBoardSummaryDTO;
 import com.tap.payload.adminAnalytics.StoreRegistrationStateDTO;
 import com.tap.payload.adminAnalytics.StoreStatusDistributionDTO;
 import com.tap.service.AdminDashboardService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
@@ -16,6 +18,7 @@ import java.util.List;
 @RestController
 @RequiredArgsConstructor
 @RequestMapping("/api/super-admin")
+@PreAuthorize(AccessRules.PLATFORM_ADMIN)
 public class AdminDashboardController {
 
     private final AdminDashboardService adminDashboardService;

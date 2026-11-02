@@ -38,26 +38,25 @@ public class AuthServiceImpl implements AuthService {
         if(user != null){
             throw new UserException("email is already registered !");
         }
-        if(userDto.getRole().equals(UserRole.ROLE_ADMIN)){
-            throw new UserException("role admin is not allowed !");
-        }
+
+        // REMOVED: if(userDto.getRole().equals(UserRole.ROLE_ADMIN)) { throw ... }
+        final UserRole assignedRole = UserRole.ROLE_STORE_ADMIN;          // ADDED
 
         User newUser = new User();
         newUser.setEmail(userDto.getEmail());
         newUser.setPassword(passwordEncoder.encode(userDto.getPassword()));
         newUser.setFullName(userDto.getFullName());
         newUser.setPhone(userDto.getPhone());
-        newUser.setRole(userDto.getRole());
+        newUser.setRole(assignedRole);                                    // CHANGED (was userDto.getRole())
         newUser.setLastLogin(LocalDateTime.now());
         newUser.setCreatedAt(LocalDateTime.now());
 
         User savedUser = userRepository.save(newUser);
 
-        // FIXED: added role as authority so JWT contains the role
         Authentication authentication = new UsernamePasswordAuthenticationToken(
                 userDto.getEmail(),
                 userDto.getPassword(),
-                Collections.singletonList(new SimpleGrantedAuthority(userDto.getRole().toString()))
+                Collections.singletonList(new SimpleGrantedAuthority(assignedRole.name()))  // CHANGED
         );
 
         SecurityContextHolder.getContext().setAuthentication(authentication);
@@ -110,6 +109,7 @@ public class AuthServiceImpl implements AuthService {
 
         return new UsernamePasswordAuthenticationToken(userDetails, null, userDetails.getAuthorities());
     }
+
 }
 
 

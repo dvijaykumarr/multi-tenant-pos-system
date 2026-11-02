@@ -1,10 +1,12 @@
 package com.tap.controller;
 
+import com.tap.configuration.AccessRules;
 import com.tap.payload.dto.RefundDTO;
 import com.tap.service.RefundService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.format.annotation.DateTimeFormat;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 
 import java.time.LocalDate;
@@ -20,18 +22,21 @@ public class RefundController {
 
 
     @PostMapping
+    @PreAuthorize(AccessRules.POS_OPERATOR)  // createRefund
     public ResponseEntity<RefundDTO> createRefund(@RequestBody RefundDTO refundDTO) throws Exception {
         RefundDTO refund = refundService.createRefund(refundDTO);
         return ResponseEntity.ok(refund);
     }
 
     @GetMapping
+    @PreAuthorize(AccessRules.STORE_LEVEL)   // getAllRefund
     public ResponseEntity<List<RefundDTO>> getAllRefund() throws Exception {
         List<RefundDTO> refund = refundService.getAllRefunds();
         return ResponseEntity.ok(refund);
     }
 
     @GetMapping("/cashier/{cashierId}")
+    @PreAuthorize(AccessRules.ALL_STAFF)     // getRefundByCashier
     public ResponseEntity<List<RefundDTO>> getRefundByCashier(
             @PathVariable Long cashierId
     ) throws Exception {
@@ -40,6 +45,7 @@ public class RefundController {
     }
 
     @GetMapping("/branch/{branchId}")
+    @PreAuthorize(AccessRules.BRANCH_LEVEL)  // getRefundByBranch
     public ResponseEntity<List<RefundDTO>> getRefundByBranch(
             @PathVariable Long branchId
     ) throws Exception {
@@ -49,6 +55,7 @@ public class RefundController {
 
 
     @GetMapping("/shift/{shiftId}")
+    @PreAuthorize(AccessRules.ALL_STAFF)     // getRefundByShift
     public ResponseEntity<List<RefundDTO>> getRefundByShift(
             @PathVariable Long shiftId
     ) throws Exception {
@@ -57,6 +64,7 @@ public class RefundController {
     }
 
     @GetMapping("/cashier/{cashierId}/range")
+    @PreAuthorize(AccessRules.ALL_STAFF) // getRefundByCashierAndDateRange
     public ResponseEntity<List<RefundDTO>> getRefundByCashierAndDateRange(
             @PathVariable Long cashierId,
             @RequestParam @DateTimeFormat(iso = DateTimeFormat.ISO.DATE_TIME) LocalDateTime startDate,
@@ -71,6 +79,7 @@ public class RefundController {
     }
 
     @GetMapping("/{id}")
+    @PreAuthorize(AccessRules.ALL_STAFF)     // getRefundById
     public ResponseEntity<RefundDTO> getRefundById(
             @PathVariable Long id
     ) throws Exception {

@@ -1,6 +1,7 @@
 package com.tap.controller;
 
 
+import com.tap.configuration.AccessRules;
 import com.tap.domain.StoreStatus;
 import com.tap.exceptions.UserException;
 import com.tap.mapper.StoreMapper;
@@ -12,6 +13,7 @@ import com.tap.service.StoreService;
 import com.tap.service.UserService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -26,6 +28,7 @@ public class StoreController {
 
 
     @PostMapping
+    @PreAuthorize(AccessRules.STORE_ADMIN)
     public ResponseEntity<StoreDto> createStore(@RequestBody StoreDto storeDto,
                                                 @RequestHeader("Authorization") String jwt) throws UserException {
 
@@ -38,6 +41,7 @@ public class StoreController {
 
 
     @GetMapping()
+    @PreAuthorize(AccessRules.PLATFORM_ADMIN)
     public ResponseEntity<List<StoreDto>> getAllStore(
                                                  @RequestHeader("Authorization") String jwt) throws Exception {
 
@@ -50,6 +54,7 @@ public class StoreController {
 
 
     @GetMapping("/admin")
+    @PreAuthorize(AccessRules.STORE_ADMIN)
     public ResponseEntity<StoreDto> getStoreByAdmin(
             @RequestHeader("Authorization") String jwt) throws Exception {
 
@@ -58,6 +63,7 @@ public class StoreController {
     }
 
     @GetMapping("/employee")
+    @PreAuthorize(AccessRules.ALL_STAFF)
     public ResponseEntity<StoreDto> getStoreByEmployee(
             @RequestHeader("Authorization") String jwt) throws Exception {
 
@@ -67,6 +73,7 @@ public class StoreController {
 
 
     @PutMapping("/{id}")
+    @PreAuthorize(AccessRules.STORE_ADMIN)
     public ResponseEntity<StoreDto> updateStore(@PathVariable Long id,
                                                 @RequestBody StoreDto storeDto) throws Exception{
 
@@ -75,6 +82,7 @@ public class StoreController {
     }
 
     @PutMapping("/{id}/moderate")
+    @PreAuthorize(AccessRules.PLATFORM_ADMIN)
     public ResponseEntity<StoreDto> moderateStore(@PathVariable Long id,
                                                   @RequestParam StoreStatus status
     ) throws Exception{
@@ -85,6 +93,7 @@ public class StoreController {
 
 
     @DeleteMapping("/{id}")
+    @PreAuthorize(AccessRules.STORE_ADMIN)
     public ResponseEntity<ApiResponse> DeleteStore(@PathVariable Long id) throws Exception {
 
         storeService.deleteStore(id);
@@ -95,6 +104,7 @@ public class StoreController {
     }
 
     @GetMapping("/{id}")
+    @PreAuthorize(AccessRules.ANY_USER)
     public ResponseEntity<StoreDto> getStoreById(@PathVariable Long id,
                                                  @RequestHeader("Authorization") String jwt) throws Exception {
 

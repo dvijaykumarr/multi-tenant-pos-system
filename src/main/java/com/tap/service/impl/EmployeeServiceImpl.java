@@ -30,6 +30,8 @@ public class EmployeeServiceImpl implements EmployeeService {
     @Override
     public UserDto createStoreEmployee(UserDto employee, Long storeId) throws Exception {
 
+        assertAssignableRole(employee.getRole());
+
         Store store = storeRepository.findById(storeId).orElseThrow(
                 () -> new Exception("Store not found")
         );
@@ -81,6 +83,8 @@ public class EmployeeServiceImpl implements EmployeeService {
 
     @Override
     public User updateEmployee(Long employeeId, UserDto employeeDetails) throws Exception {
+
+        assertAssignableRole(employeeDetails.getRole());
 
         User existingEmployee = userRepository.findById(employeeId).orElseThrow(
                 ()-> new Exception("Employee not exists with given id")
@@ -138,5 +142,13 @@ public class EmployeeServiceImpl implements EmployeeService {
                 )
                 .map(UserMapper::toDto)
                 .collect(Collectors.toList());
+    }
+
+    private void assertAssignableRole(UserRole role) throws Exception {          // ADDED
+        if (role == null
+                || role == UserRole.ROLE_ADMIN
+                || role == UserRole.ROLE_STORE_ADMIN) {
+            throw new Exception("This role cannot be assigned through the employee API");
+        }
     }
 }

@@ -1,6 +1,7 @@
 package com.tap.controller;
 
 
+import com.tap.configuration.AccessRules;
 import com.tap.modal.PaymentSummary;
 import com.tap.payload.branchAnalytics.*;
 import com.tap.service.BranchAnalyticsService;
@@ -24,6 +25,7 @@ public class BranchAnalyticsController {
     private final BranchAnalyticsService branchAnalyticsService;
 
     @GetMapping("/daily-sales")
+    @PreAuthorize(AccessRules.BRANCH_LEVEL)       // ADDED above each @GetMapping
     public ResponseEntity<List<DailySalesDTO>> getDailySalesChart(
             @RequestParam Long branchId,
             @RequestParam(defaultValue = "7") int days
@@ -33,6 +35,7 @@ public class BranchAnalyticsController {
 
 
     @GetMapping("/top-products")
+    @PreAuthorize(AccessRules.BRANCH_LEVEL)       // ADDED above each @GetMapping
     public ResponseEntity<List<ProductPerformanceDTO>> getTopProductsByQuantity(@RequestParam Long branchId)
     {
         return ResponseEntity.ok(branchAnalyticsService.getTopProductsByQuantityWithPercentage(branchId));
@@ -40,6 +43,7 @@ public class BranchAnalyticsController {
 
 
     @GetMapping("/top-cashiers")
+    @PreAuthorize(AccessRules.BRANCH_LEVEL)
     public ResponseEntity<List<CashierPerformanceDTO>> getTopCashiersByRevenue(
             @RequestParam Long branchId
     ) {
@@ -47,6 +51,7 @@ public class BranchAnalyticsController {
     }
 
     @GetMapping("/category-sales")
+    @PreAuthorize(AccessRules.BRANCH_LEVEL)
     public ResponseEntity<List<CategorySalesDTO>> getCategoryWiseSalesBreakdown(
             @RequestParam Long branchId,
             @RequestParam @DateTimeFormat(iso = DateTimeFormat.ISO.DATE) LocalDate date
@@ -55,6 +60,7 @@ public class BranchAnalyticsController {
     }
 
     @GetMapping("/today-overview")
+    @PreAuthorize(AccessRules.BRANCH_LEVEL)
     public ResponseEntity<BranchDashboardOverviewDTO> getTodayOverview(
             @RequestParam Long branchId
     ) {
@@ -62,6 +68,7 @@ public class BranchAnalyticsController {
     }
 
     @GetMapping("/payment-breakdown")
+    @PreAuthorize(AccessRules.BRANCH_LEVEL)
     public ResponseEntity<List<PaymentSummary>> getPaymentBreakdown(
             @RequestParam Long branchId,
             @RequestParam @DateTimeFormat(iso = DateTimeFormat.ISO.DATE) LocalDate date
